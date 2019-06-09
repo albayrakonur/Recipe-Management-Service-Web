@@ -9,7 +9,7 @@
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">        
       <script src="js/jquery-3.4.1.min.js"></script>
   </head>
-  <body onload="getIDParam();">
+  <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="#">BENİMSİN</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -137,56 +137,49 @@
 		</div>
 	  
 	  <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js">
-		  var idParam;
-			  function getIDParam() {
-				  
-					  var url_string = window.location.href;
-					  var url = new URL(url_string);
-					  idParam = url.searchParams.get("id");
-					  //console.log("id: " + idParam);
-			  	 
-			  }
-		  
-			  function updateRecipeFunc() {
-				  	//console.log("id: " + idParam);
-				  	getIDParam();
-					var jsonData;
-					var name = document.getElementById("recipeName").value;
-					var details = document.getElementById("recipeDetails").value;
-					var tags = (document.getElementById("recipeTags").value).split(',');
-				  	console.log("name: " + name + " details: " + details + " tags: " + tags);
-					jsonData = "{"
-							+ "\"name\":" + "\"" + name + "\"" + "," 
-							+ "\"details\":" + "\"" + details + "\"" + ","
-							+ "\"photos\": []" + ","
-							+ "\"tags\":[" ;
-							//+ "}";
-					var i;
-					for (i = 0; i < tags.length; i++) {
-						if(i + 1 != tags.length) {
-							jsonData += "\"" + tags[i] + "\",";
-						}else {
-							jsonData += "\"" + tags[i] + "\"]" + "}";
-						}
+			function updateRecipeFunc() {
+				// get ID parameter from url 
+				//begin
+				var url_string = window.location.href;
+				var url = new URL(url_string);
+				var idParam = url.searchParams.get("id");
+				console.log("id: " + idParam);
+				// ends
+				var jsonData;
+				var name = document.getElementById("recipeName").value;
+				var details = document.getElementById("recipeDetails").value;
+				var tags = (document.getElementById("recipeTags").value).split(',');
+				jsonData = "{"
+						+ "\"name\":" + "\"" + name + "\"" + "," 
+						+ "\"details\":" + "\"" + details + "\"" + ","
+						+ "\"photos\": []" + ","
+						+ "\"tags\":[" ;
+						//+ "}";
+				var i;
+				for (i = 0; i < tags.length; i++) {
+					if(i + 1 != tags.length) {
+						jsonData += "\"" + tags[i] + "\",";
+					}else {
+						jsonData += "\"" + tags[i] + "\"]" + "}";
 					}
-					//alert("{\"name\":\"" + name + "\",\"details\":\"" + details + "\",\"photos\":[]" + "}");
-					var settings = {
-						"async": true,
-						"crossDomain": true,
-						"url": "https://recipe-management-service.herokuapp.com/updateRecipe" + idParam,
-						"method": "PUT",
-						"headers": {
-						"content-type": "application/json"
-						},
-						"processData": false,
-						"data": jsonData
-				    }
+				}
+				//alert("{\"name\":\"" + name + "\",\"details\":\"" + details + "\",\"photos\":[]" + "}");
+				var settings = {
+					"async": true,
+					"crossDomain": true,
+					"url": "https://recipe-management-service.herokuapp.com/addRecipe",
+					"method": "POST",
+					"headers": {
+					"content-type": "application/json"
+					},
+					"processData": false,
+					"data": jsonData
+				}
 
-					$.ajax(settings).done(function (response) {
-					  //alert("Succesfull");
-					});
-                
-			  }
+				$.ajax(settings).done(function (response) {
+				  //alert("Succesfull");
+				});
+			}
 		  
 		  
 	  </script>
