@@ -81,14 +81,21 @@
                         }
                     }
                     //alert("{\"name\":\"" + name + "\",\"details\":\"" + details + "\",\"photos\":[]" + "}");
-                    $.ajax({
-                    type: "POST",
-                        url: "https://recipe-management-service.herokuapp.com/addRecipe",
-                        data: jsonData,
-                        contentType: "application/json",
-                        dataType: "json",
-                        success: alert("Successful")
-                    });
+                    var settings = {
+						"async": true,
+						"crossDomain": true,
+						"url": "https://recipe-management-service.herokuapp.com/addRecipe",
+						"method": "POST",
+						"headers": {
+						"content-type": "application/json"
+						},
+						"processData": false,
+						"data": jsonData
+				    }
+
+					$.ajax(settings).done(function (response) {
+					  console.log(response);
+					});
                 }
         </script>
         
