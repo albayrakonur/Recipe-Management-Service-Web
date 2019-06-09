@@ -136,20 +136,56 @@
 		  </div>
 		</div>
 	  
-	  <script type="text/javascript">
+	  <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js">
 		  var idParam;
 			  function getIDParam() {
-				  $( document ).ready(function() {
+				  
 					  var url_string = window.location.href;
 					  var url = new URL(url_string);
 					  idParam = url.searchParams.get("id");
 					  //console.log("id: " + idParam);
-					  getRecipe(idParam);
-			  	  });
+			  	 
 			  }
 		  
-			  function getRecipe(id) {
-				  console.log("id: " + id);
+			  function updateRecipeFunc() {
+				  	//console.log("id: " + idParam);
+				  	getIDParam();
+					var jsonData;
+					var name = document.getElementById("recipeName").value;
+					var details = document.getElementById("recipeDetails").value;
+					var tags = (document.getElementById("recipeTags").value).split(',');
+				  	console.log("name: " + name + " details: " + details + " tags: " + tags);
+					jsonData = "{"
+							+ "\"name\":" + "\"" + name + "\"" + "," 
+							+ "\"details\":" + "\"" + details + "\"" + ","
+							+ "\"photos\": []" + ","
+							+ "\"tags\":[" ;
+							//+ "}";
+					var i;
+					for (i = 0; i < tags.length; i++) {
+						if(i + 1 != tags.length) {
+							jsonData += "\"" + tags[i] + "\",";
+						}else {
+							jsonData += "\"" + tags[i] + "\"]" + "}";
+						}
+					}
+					//alert("{\"name\":\"" + name + "\",\"details\":\"" + details + "\",\"photos\":[]" + "}");
+					var settings = {
+						"async": true,
+						"crossDomain": true,
+						"url": "https://recipe-management-service.herokuapp.com/updateRecipe" + idParam,
+						"method": "PUT",
+						"headers": {
+						"content-type": "application/json"
+						},
+						"processData": false,
+						"data": jsonData
+				    }
+
+					$.ajax(settings).done(function (response) {
+					  //alert("Succesfull");
+					});
+                
 			  }
 		  
 		  
