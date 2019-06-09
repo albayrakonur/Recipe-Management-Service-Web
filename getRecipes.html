@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="tr">
+	<style>
+	
+		p {
+			max-width: 250px; 
+			white-space: nowrap; 
+			overflow: hidden; 
+			text-overflow: ellipsis;
+			height: 50px;
+		}
+		h5 {
+			max-width: 250px; 
+			white-space: nowrap; 
+			overflow: hidden; 
+			text-overflow: ellipsis;
+			height: 50px;
+		}
+	</style>
+    <head>
+		<title>Recipe Management!</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">        
+        <script src="js/jquery-3.4.1.min.js"></script>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="/homepage.html">BENİMSİN</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="homepage.html">Anasayfa <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                                <a class="nav-link" href="addRecipe.html">Tarif Ekle</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="getRecipes.html">Tarifleri Göster</a>
+                        </li>
+                </ul>
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Yemek Tarifleri Ara" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Tarif Ara</button>
+                </form>
+            </div>
+        </nav>
+		
+		<div class="container">
+            <h1 class="font-weight-light text-center text-lg-left mt-4 mb-0">Yemek Tarifleri</h1>
+            <hr class="mt-2 mb-5">       
+            <div class="row text-center text-lg-left" id="recipe-list">			
+				
+	    	</div>
+		</div>
+
+        <script type="text/javascript">
+			
+			var settings = {
+				"async": true,
+				"crossDomain": true,
+				"url": "https://recipe-management-service.herokuapp.com/getRecipes",
+				"method": "GET",
+				"headers": {}
+			}
+			$.ajax(settings).done(function (data) {
+			  	//console.log(data);
+				var list = document.getElementById("recipe-list");
+				var items = "";
+				for(var i = 0; i < data.length; i++) {
+					var idParams = "recipe.html?id=" + data[i].id;	
+					console.log("params: " + idParams);
+					items += " <div class=\"col-lg-3 col-md-4 col-6\"> <img class=\"card-img-top\" src=\"images/noimage.jpg\" alt=\"Card image cap\"> <div class=\"card-body\" style=\"text-align:center\"> <h5 class=\"card-title\">" + data[i].name + "</h5> <p class=\"card-text\" >" + data[i].details + "</p> <a href=\"" + idParams + "\" class=\"btn btn-primary\">Tarif Detayına Git</a> </div> </div> ";
+				}
+				list.innerHTML = items;
+				
+			});
+        </script>
+
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>
