@@ -61,26 +61,28 @@
 		</div>
 
         <script type="text/javascript">
-			
-			var settings = {
-				"async": true,
-				"crossDomain": true,
-				"url": "https://recipe-management-service.herokuapp.com/getRecipes",
-				"method": "GET",
-				"headers": {}
-			}
-			$.ajax(settings).done(function (data) {
-			  	//console.log(data);
-				var list = document.getElementById("recipe-list");
-				var items = "";
-				for(var i = 0; i < data.length; i++) {
-					var idParams = "recipe.html?id=" + data[i].id;	
-					//console.log("params: " + idParams);
-					items += " <div class=\"col-lg-3 col-md-4 col-6\"> <img class=\"card-img-top\" src=\"images/noimage.jpg\" alt=\"Card image cap\"> <div class=\"card-body\" style=\"text-align:center\"> <h5 class=\"card-title\">" + data[i].name + "</h5> <p class=\"card-text\" >" + data[i].details + "</p> <a href=\"" + idParams + "\" class=\"btn btn-primary\">Tarif Detayına Git</a> </div> </div> ";
+			$( document ).ready(function() {
+				var settings = {
+					"async": true,
+					"crossDomain": true,
+					"url": "https://recipe-management-service.herokuapp.com/getRecipes",
+					"method": "GET",
+					"headers": {}
 				}
-				list.innerHTML = items;
-				
+				$.ajax(settings).done(function (data) {
+					//console.log(data);
+					var list = document.getElementById("recipe-list");
+					var items = "";
+					for(var i = 0; i < data.length; i++) {
+						var idParams = "recipe.html?id=" + data[i].id;	
+						//console.log("params: " + idParams);
+						items += " <div class=\"col-lg-3 col-md-4 col-6\"> <img class=\"card-img-top\" src=\"images/noimage.jpg\" alt=\"Card image cap\"> <div class=\"card-body\" style=\"text-align:center\"> <h5 class=\"card-title\">" + data[i].name + "</h5> <p class=\"card-text\" >" + data[i].details + "</p> <a href=\"" + idParams + "\" class=\"btn btn-primary\">Tarif Detayına Git</a> </div> </div> ";
+					}
+					list.innerHTML = items;
+
+				});				
 			});
+
         </script>
   </body>
 </html>

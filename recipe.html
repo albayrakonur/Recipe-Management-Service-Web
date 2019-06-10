@@ -13,7 +13,7 @@
   </head>
   <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#">BENİMSİN</a>
+            <a class="navbar-brand" href="/homepage.html">BENİMSİN</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -40,26 +40,25 @@
 		<div class="container">
 
 		  <!-- Portfolio Item Heading -->
-		  <h1 class="my-4">Page Heading <small>Secondary Text</small>
-		  </h1>
+		  <div id="recipeHeaderText">
+			  
+		  </div>	
+		  
 
 		  <!-- Portfolio Item Row -->
 		  <div class="row">
-
 			<div class="col-md-8">
 			  <img class="img-fluid" src="images/noimage.jpg" alt="">
 			</div>
 
 			<div class="col-md-4">
-			  <h3 class="my-3">Project Description</h3>
-			  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae. Sed dui lorem, adipiscing in adipiscing et, interdum nec metus. Mauris ultricies, justo eu convallis placerat, felis enim.</p>
-			  <h3 class="my-3">Project Details</h3>
-			  <ul>
-				<li>Lorem Ipsum</li>
-				<li>Dolor Sit Amet</li>
-				<li>Consectetur</li>
-				<li>Adipiscing Elit</li>
-			  </ul>
+				
+			    <h3 class="my-3">Tarif Detayları</h3>
+				<div id="recipeDetailText">
+				
+				</div>
+			    
+			    
 				<button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#exampleModal">Tarifi Sil</button>
 				<button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#exampleModalCenter">Tarifi Güncelle</button>
 				<button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#exampleModalCenter">Tarifi Paylaş</button>
@@ -221,7 +220,34 @@
 					$.ajax(settings).done(function (response) {
 						document.location.reload(true);
 					});
-			  }		  
+			  }
+			  
+			  $( document ).ready(function() {
+				  var url_string = window.location.href;
+				  var url = new URL(url_string);
+				  var idParam = url.searchParams.get("id");
+				  var settings = {
+				    "async": true,
+				    "crossDomain": true,
+				    "url": "https://recipe-management-service.herokuapp.com/getRecipe/" + idParam,
+				    "method": "GET",
+				    "headers": {
+					  "content-type": "application/json"
+				    },
+				    "processData": false,
+				    "data": ""
+				  }
+				  
+				  $.ajax(settings).done(function (data) {
+				      console.log(data);
+					  var header = document.getElementById("recipeHeaderText");
+				  	  recipeHeaderText.innerHTML = "<h1 class=\"my-4\">" + data.name + "</h1>"; 
+					  var detail = document.getElementById("recipeDetailText");
+					  recipeDetailText.innerHTML = "<p>" + data.details + "</p>";
+					  
+				  });
+			  });
+			  
 	  </script>
   </body>
 </html>
