@@ -120,7 +120,7 @@
 			  </div>
 			  <div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-				<input  class="btn btn-lg btn-primary" id="buttonAdd" type="submit" name="submit" value="Tarifi Güncelle" onclick="getIDParam()">
+				<input  class="btn btn-lg btn-primary" id="buttonAdd" type="submit" name="submit" value="Tarifi Güncelle" onclick="updateRecipe()">
 			  </div>
 			</div>
 		  </div>
@@ -134,11 +134,10 @@
 					  var url = new URL(url_string);
 					  idParam = url.searchParams.get("id");
 					  //console.log("id: " + idParam);
-					  getRecipe(idParam);
 			  	  });
 			  }
 		  
-			  function getRecipe(id) {
+			  function updateRecipe() {
 				  console.log("id: " + id);
 			  }
 		  
