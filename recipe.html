@@ -116,7 +116,20 @@
 				</button>
 			  </div>
 			  <div class="modal-body">
-				...
+				<form id="addForm" style="margin-top: 30px">
+					<div class="form-group">
+						<!--<label for="labelName">TARİF İSMİ</label>-->
+						<input type="text" class="form-control" id="recipeName" aria-describedby="detailsHelp" placeholder="Enter Recipe Name" required>
+					</div>
+					<div class="form-group">
+						<!--<label for="labelDetails">TARİF DETAYLAR</label>-->
+						<input type="text" class="form-control" id="recipeDetails" aria-describedby="detailsHelp" placeholder="Enter Recipe Details" required>
+					</div>
+					<div class="form-group">
+						<!--<label for="labelTags">TARİF ETİKETLER</label>-->
+						<input type="text" class="form-control" id="recipeTags" aria-describedby="tagsHelp" placeholder="Enter Recipe Tags" required>
+					</div>
+				</form>
 			  </div>
 			  <div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -134,12 +147,12 @@
 					  var url = new URL(url_string);
 					  idParam = url.searchParams.get("id");
 					  //console.log("id: " + idParam);
-					  getRecipe(idParam);
+					  updateRecipe(idParam);
 			  	  });
 			  }
 		  
-			  function getRecipe(id) {
-				  console.log("id: " + id);
+			  function updateRecipe(id) {
+				  //console.log("id: " + id);
 			  }
 		  
 		  
