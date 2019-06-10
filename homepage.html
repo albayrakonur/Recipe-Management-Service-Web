@@ -29,11 +29,30 @@
                         </li>
                 </ul>
                 <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Yemek Tarifleri Ara" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Tarif Ara</button>
+                    <input type="text" class="form-control" id="recipeTags" aria-describedby="recipeTags" placeholder="Anahtar Kelime Giriniz" required>
+                    <button id="buttonSearch" class="btn btn-outline-success my-2 my-sm-0" type="submit" onClick="searchRecipe()">Tarif Ara</button>
                 </form>
             </div>
         </nav>
+		
+		<script>
+			function searchRecipe() {
+				var tags = document.getElementById("recipeTags").value;
+				console.log(tags);
+				var settings = {
+				  "async": true,
+				  "crossDomain": true,
+				  "url": "https://recipe-management-service.herokuapp.com/searchRecipes/" + tags,
+				  "method": "GET",
+				  "headers": {}
+				}
+
+				$.ajax(settings).done(function (response) {
+				  console.log("response: " + response);
+				});
+			}
+			
+		</script>
         
   </body>
 </html>
