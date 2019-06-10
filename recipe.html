@@ -116,7 +116,7 @@
 				</button>
 			  </div>
 			  <div class="modal-body">
-				<form id="addForm" style="margin-top: 30px">
+				<form id="updateForm" style="margin-top: 30px">
 					<div class="form-group">
 						<!--<label for="labelName">TARİF İSMİ</label>-->
 						<input type="text" class="form-control" id="recipeName" aria-describedby="detailsHelp" placeholder="Enter Recipe Name" required>
@@ -153,6 +153,40 @@
 		  
 			  function updateRecipe(id) {
 				  //console.log("id: " + id);
+				  var jsonData;
+                    var name = document.getElementById("recipeName").value;
+                    var details = document.getElementById("recipeDetails").value;
+                    var tags = (document.getElementById("recipeTags").value).split(',');
+                    jsonData = "{"
+                            + "\"name\":" + "\"" + name + "\"" + "," 
+                            + "\"details\":" + "\"" + details + "\"" + ","
+                            + "\"photos\": []" + ","
+                            + "\"tags\":[" ;
+                            //+ "}";
+                    var i;
+                    for (i = 0; i < tags.length; i++) {
+                        if(i + 1 != tags.length) {
+                            jsonData += "\"" + tags[i] + "\",";
+                        }else {
+                            jsonData += "\"" + tags[i] + "\"]" + "}";
+                        }
+                    }
+				    var settings = {
+						"async": true,
+						"crossDomain": true,
+						"url": "https://recipe-management-service.herokuapp.com/updateRecipe/" + idParam,
+						"method": "PUT",
+						"headers": {
+						"content-type": "application/json"
+						},
+						"processData": false,
+						"data": jsonData
+				    }
+
+					$.ajax(settings).done(function (response) {
+					  //alert("Succesfull");
+					});
+				  
 			  }
 		  
 		  
