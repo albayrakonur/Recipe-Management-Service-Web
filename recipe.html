@@ -7,6 +7,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <!-- Bootstrap CSS -->
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">        
+      <script src="js/jquery-3.4.1.min.js"></script>
   </head>
   <body onload="getIDParam();">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -138,7 +139,7 @@
 		  </div>
 		</div>
 	  
-	  <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js">
+	  <script type="text/javascript">
 		  var idParam;
 			  function getIDParam() {
 				  $( document ).ready(function() {
@@ -151,41 +152,7 @@
 			  }
 		  
 			  function updateRecipe(id) {
-				  //console.log("id: " + id);
-				  var jsonData;
-                    var name = document.getElementById("recipeName").value;
-                    var details = document.getElementById("recipeDetails").value;
-                    var tags = (document.getElementById("recipeTags").value).split(',');
-                    jsonData = "{"
-                            + "\"name\":" + "\"" + name + "\"" + "," 
-                            + "\"details\":" + "\"" + details + "\"" + ","
-                            + "\"photos\": []" + ","
-                            + "\"tags\":[" ;
-                            //+ "}";
-                    var i;
-                    for (i = 0; i < tags.length; i++) {
-                        if(i + 1 != tags.length) {
-                            jsonData += "\"" + tags[i] + "\",";
-                        }else {
-                            jsonData += "\"" + tags[i] + "\"]" + "}";
-                        }
-                    }
-				    var settings = {
-						"async": true,
-						"crossDomain": true,
-						"url": "https://recipe-management-service.herokuapp.com/updateRecipe/" + idParam,
-						"method": "PUT",
-						"headers": {
-						"content-type": "application/json"
-						},
-						"processData": false,
-						"data": jsonData
-				    }
-
-					$.ajax(settings).done(function (response) {
-					  //alert("Succesfull");
-					});
-				  
+				  console.log("id: " + id);
 			  }
 		  
 		  
