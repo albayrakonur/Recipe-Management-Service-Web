@@ -98,6 +98,21 @@
 					 	document.location.reload(true);
 					});
                 }
+				function searchRecipe() {
+					var tags = document.getElementById("recipeTags").value;
+					console.log(tags);
+					var settings = {
+					  "async": true,
+					  "crossDomain": true,
+					  "url": "https://recipe-management-service.herokuapp.com/searchRecipes/" + tags,
+					  "method": "GET",
+					  "headers": {}
+					}
+
+					$.ajax(settings).done(function (response) {
+					  console.log("response: " + response);
+					});
+			}
         </script>
 		
   </body>
