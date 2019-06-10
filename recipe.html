@@ -11,7 +11,7 @@
 	  <script src="js/bootstrap.min.js"></script>
 	  
   </head>
-  <body onload="getIDParam();">
+  <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="#">BENİMSİN</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,7 +60,7 @@
 				<li>Consectetur</li>
 				<li>Adipiscing Elit</li>
 			  </ul>
-				<button type="button" class="btn btn-primary btn-lg btn-block">Tarifi Sil</button>
+				<button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#exampleModal">Tarifi Sil</button>
 				<button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#exampleModalCenter">Tarifi Güncelle</button>
 			</div>
 
@@ -101,11 +101,27 @@
 
 		</div>
 		<!-- /.container -->
-	  
-		<!-- Button trigger modal -->
-		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-		  Launch demo modal
-		</button>
+
+		<!-- Modal -->
+		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Sil</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				  <span aria-hidden="true">&times;</span>
+				</button>
+			  </div>
+			  <div class="modal-body">
+				Tarif Silinsin mi ?
+			  </div>
+			  <div class="modal-footer">
+				<button type="button" class="btn btn-secondary btn-block" data-dismiss="modal">Hayır</button>
+				<input  class="btn btn-lg btn-primary btn-block" id="buttonAdd" type="submit" name="submit" value="Evet" onclick="deleteRecipe()">
+			  </div>
+			</div>
+		  </div>
+		</div>
 
 		<!-- Modal -->
 		<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -134,8 +150,8 @@
 				</form>
 			  </div>
 			  <div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-				<input  class="btn btn-lg btn-primary" id="buttonAdd" type="submit" name="submit" value="Tarifi Güncelle" onclick="getIDParam()">
+				<button type="button" class="btn btn-secondary btn-block" data-dismiss="modal">Close</button>
+				<input  class="btn btn-lg btn-primary btn-block" id="buttonAdd" type="submit" name="submit" value="Tarifi Güncelle" onclick="updateRecipe()">
 			  </div>
 			</div>
 		  </div>
@@ -151,52 +167,71 @@
 					  idParam = url.searchParams.get("id");
 					  //console.log("id: " + idParam);
 					  updateRecipe(idParam);
+					  deleteRecipe(idParam);
 			  	  });
+			  }
+			  
+			  function deleteRecipe() {
+					var url_string = window.location.href;
+					var url = new URL(url_string);
+					var idParam = url.searchParams.get("id");
+					var settings = {
+					  "async": true,
+					  "crossDomain": true,
+					  "url": "https://recipe-management-service.herokuapp.com/deleteRecipe/" + idParam,
+					  "method": "DELETE",
+					  "headers": {
+						"content-type": "application/json"
+					  },
+					  "processData": false,
+					  "data": ""
+					}
+
+					$.ajax(settings).done(function (response) {
+						document.location.reload(true);
+					});
 			  }
 		  
 			  function updateRecipe(id) {
-				  //console.log("id: " + id);
-				  count += 1;
-				  if(count >= 2) {
-						var jsonData;
-						var name = document.getElementById("recipeName").value;
-						var details = document.getElementById("recipeDetails").value;
-						var tags = (document.getElementById("recipeTags").value).split(',');
-						jsonData = "{"
-								+ "\"name\":" + "\"" + name + "\"" + "," 
-								+ "\"details\":" + "\"" + details + "\"" + ","
-								+ "\"photos\": []" + ","
-								+ "\"tags\":[" ;
-								//+ "}";
-						var i;
-						for (i = 0; i < tags.length; i++) {
-							if(i + 1 != tags.length) {
-								jsonData += "\"" + tags[i] + "\",";
-							}else {
-								jsonData += "\"" + tags[i] + "\"]" + "}";
-							}
+					var url_string = window.location.href;
+					var url = new URL(url_string);
+					var idParam = url.searchParams.get("id");
+				  	var jsonData;
+					var name = document.getElementById("recipeName").value;
+					var details = document.getElementById("recipeDetails").value;
+					var tags = (document.getElementById("recipeTags").value).split(',');
+					jsonData = "{"
+							+ "\"name\":" + "\"" + name + "\"" + "," 
+							+ "\"details\":" + "\"" + details + "\"" + ","
+							+ "\"photos\": []" + ","
+							+ "\"tags\":[" ;
+							//+ "}";
+					var i;
+					for (i = 0; i < tags.length; i++) {
+						if(i + 1 != tags.length) {
+							jsonData += "\"" + tags[i] + "\",";
+						}else {
+							jsonData += "\"" + tags[i] + "\"]" + "}";
 						}
-					  	console.log(jsonData + "\n" + idParam);
-				  
-				  
-						var settings = {
-						  "async": true,
-						  "crossDomain": true,
-						  "url": "https://recipe-management-service.herokuapp.com/updateRecipe/" + idParam,
-						  "method": "PUT",
-						  "headers": {
-							"content-type": "application/json"
-						  },
-						  "processData": false,
-						  "data": jsonData
-						}
+					}
+					console.log(jsonData + "\n" + idParam);
 
-						$.ajax(settings).done(function (response) {
-						 	document.location.reload(true);
-						});
-				  
-				  
-				  }
+
+					var settings = {
+					  "async": true,
+					  "crossDomain": true,
+					  "url": "https://recipe-management-service.herokuapp.com/updateRecipe/" + idParam,
+					  "method": "PUT",
+					  "headers": {
+						"content-type": "application/json"
+					  },
+					  "processData": false,
+					  "data": jsonData
+					}
+
+					$.ajax(settings).done(function (response) {
+						document.location.reload(true);
+					});
 			  }		  
 	  </script>
   </body>
