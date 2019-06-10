@@ -141,6 +141,7 @@
 	  
 	  <script type="text/javascript">
 		  var idParam;
+		  var count = 0;
 			  function getIDParam() {
 				  $( document ).ready(function() {
 					  var url_string = window.location.href;
@@ -152,7 +153,29 @@
 			  }
 		  
 			  function updateRecipe(id) {
-				  console.log("id: " + id);
+				  //console.log("id: " + id);
+				  count += 1;
+				  if(count >= 2) {
+						var jsonData;
+						var name = document.getElementById("recipeName").value;
+						var details = document.getElementById("recipeDetails").value;
+						var tags = (document.getElementById("recipeTags").value).split(',');
+						jsonData = "{"
+								+ "\"name\":" + "\"" + name + "\"" + "," 
+								+ "\"details\":" + "\"" + details + "\"" + ","
+								+ "\"photos\": []" + ","
+								+ "\"tags\":[" ;
+								//+ "}";
+						var i;
+						for (i = 0; i < tags.length; i++) {
+							if(i + 1 != tags.length) {
+								jsonData += "\"" + tags[i] + "\",";
+							}else {
+								jsonData += "\"" + tags[i] + "\"]" + "}";
+							}
+						}
+					  	console.log(jsonData + "\n" + idParam);
+				  }
 			  }
 		  
 		  
