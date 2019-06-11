@@ -30,10 +30,18 @@
                 </ul>
                 <form class="form-inline my-2 my-lg-0">
                     <input class="form-control mr-sm-2" id="recipeTags" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" onClick="searchRecipe()">Tarif Ara</button>
+					<a class="btn btn-outline-success my-2 my-sm-0" role="button" onClick="search()">Tarif Ara</a>
                 </form>
             </div>
         </nav>
+		
+		<div class="container">
+            <h1 class="font-weight-light text-center text-lg-left mt-4 mb-0">Yemek Tarifleri</h1>
+            <hr class="mt-2 mb-5">       
+            <div class="row text-center text-lg-left" id="recipe-list">			
+				
+	    	</div>
+		</div>
 		
 		<script>
 			$( document ).ready(function() {
@@ -50,11 +58,22 @@
 					  "headers": {}
 					}
 
-					$.ajax(settings).done(function (response) {
-					  console.log(response);
-					});
+					$.ajax(settings).done(function (data) {
+					  //console.log(data);
+					  var list = document.getElementById("recipe-list");
+					  var items = "";
+					  for(var i = 0; i < data.length; i++) {
+						  var idParams = "recipe.html?id=" + data[i].id;	
+						  //console.log("params: " + idParams);
+						  items += " <div class=\"col-lg-3 col-md-4 col-6\"> <img class=\"card-img-top\" src=\"images/noimage.jpg\" alt=\"Card image cap\"> <div class=\"card-body\" style=\"text-align:center\"> <h5 class=\"card-title\">" + data[i].name + "</h5> <p class=\"card-text\" >" + data[i].details + "</p> <a href=\"" + idParams + "\" class=\"btn btn-primary\">Tarif Detayına Git</a> </div> </div> ";
+					  }
+					  list.innerHTML = items;
+					  });
 				}
 			});
+			function search() {
+				searchRecipe();			
+			}
 			
 		</script>
         
