@@ -11,6 +11,14 @@
 	  <script src="js/bootstrap.min.js"></script>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
+	<style>
+		.carousel-caption > p {
+			white-space: nowrap; 
+			overflow: hidden; 
+			text-overflow: ellipsis;
+		}
+	</style>
+	
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="/homepage.html">BENİMSİN</a>
@@ -84,14 +92,14 @@
 					var i;
 					var count = 1;
 					for(i = data.length-1; i >= 0; i--) {
+						var urlParam = "recipe.html?id=" + data[i].id;
 						if(i == data.length-1) {
 							itemListHtml += "<li data-target=\"#carouselExampleIndicators\" data-slide-to=\"0\" class=\"active\"></li>";
-							
-							itemBodyHtml += "<div class=\"carousel-item active\">" + "<img class=\"d-block w-100\" src=\"images/noimage.jpg\" alt=\"First slide\" style=\"max-width: 100%; height: 500px; margin: auto;\">" + "<div class=\"carousel-caption d-none d-md-block\">" + "<h5>" + data[i].name + "</h5>" + "<p>" + data[i].details + "</p>" + "</div></div>";
+							itemBodyHtml += "<div class=\"carousel-item active\">" + "<a href=" + urlParam + "> <img class=\"d-block w-100\" src=\"images/noimage.jpg\" alt=\"First slide\" style=\"max-width: 100%; height: 500px; margin: auto;\"> </a>" + "<div class=\"carousel-caption d-none d-md-block\">" + "<h5>" + data[i].name + "</h5>" + "<p>" + data[i].details + "</p>" + "</div></div>";
 						}else {
 							itemListHtml += "<li data-target=\"#carouselExampleIndicators\" data-slide-to=\"" + count + "\"></li>";
 							
-							itemBodyHtml += "<div class=\"carousel-item\">" + "<img class=\"d-block w-100\" src=\"images/noimage.jpg\" alt=\"First slide\" style=\"max-width: 100%; height: 500px; margin: auto;\">" + "<div class=\"carousel-caption d-none d-md-block\">" + "<h5>" + data[i].name + "</h5>" + "<p>" + data[i].details + "</p>" + "</div></div>";
+							itemBodyHtml += "<div class=\"carousel-item\">" + "<a href=" + urlParam + "> <img class=\"d-block w-100\" src=\"images/noimage.jpg\" alt=\"First slide\" style=\"max-width: 100%; height: 500px; margin: auto;\"> </a>" + "<div class=\"carousel-caption d-none d-md-block\">" + "<h5>" + data[i].name + "</h5>" + "<p>" + data[i].details + "</p>" + "</div></div>";
 							count += 1;
 						}
 					}
