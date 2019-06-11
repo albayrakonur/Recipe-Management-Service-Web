@@ -47,7 +47,7 @@
                 </ul>
                 <form class="form-inline my-2 my-lg-0">
                     <input class="form-control mr-sm-2" id="recipeTags" type="search" placeholder="Search" aria-label="Search">
-					<a class="btn btn-outline-success my-2 my-sm-0" role="button" onClick="searchRecipe()">Tarif Ara</a>
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" onClick="searchRecipe()">Tarif Ara</button>
                 </form>
             </div>
         </nav>
@@ -85,8 +85,20 @@
 			
 			function searchRecipe() {
 				var tags = document.getElementById("recipeTags").value;
-				window.location.replace("search.html?tags=" + tags);			
+				console.log(tags);
+				var settings = {
+				  "async": true,
+				  "crossDomain": true,
+				  "url": "https://recipe-management-service.herokuapp.com/searchRecipes/" + tags,
+				  "method": "GET",
+				  "headers": {}
+				}
+
+				$.ajax(settings).done(function (response) {
+				  console.log("response: " + response);
+				});
 			}
+
         </script>
   </body>
 </html>
