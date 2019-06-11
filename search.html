@@ -36,12 +36,25 @@
         </nav>
 		
 		<script>
-			
-			function searchRecipe() {
-				var tags = document.getElementById("recipeTags").value;
-				window.location.href = "/search.html?tags=" + tags;			
-			}
-			
+			$( document ).ready(function() {
+				function searchRecipe() {
+					var url_string = window.location.href;
+					var url = new URL(url_string);
+					var urlParam = url.searchParams.get("tags");
+					console.log("tags: " + urlParam);
+					var settings = {
+					  "async": true,
+					  "crossDomain": true,
+					  "url": "https://recipe-management-service.herokuapp.com/searchRecipes/" + urlParam,
+					  "method": "GET",
+					  "headers": {}
+					}
+
+					$.ajax(settings).done(function (response) {
+					  console.log(response);
+					});
+				}
+			});
 			
 		</script>
         
