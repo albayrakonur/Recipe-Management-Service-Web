@@ -1,34 +1,34 @@
 <!doctype html>
 <html lang="en">
-  <head>
-	  <title>Recipe Management!</title>
-      <!-- Required meta tags -->
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-      <!-- Bootstrap CSS -->
-      <link rel="stylesheet" href="css/bootstrap.min.css">
-	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-	  <script src="js/bootstrap.min.js"></script>
-	  <script type="text/javascript" src="//platform-api.sharethis.com/js/sharethis.js#property=5cfee3544351e90012650100&product=inline-share-buttons" async="async"></script>
-	  
-  </head>
-  <body>
+    <head>
+        <title>Recipe Management!</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="//platform-api.sharethis.com/js/sharethis.js#property=5cfee3544351e90012650100&product=inline-share-buttons" async="async"></script>
+        <link rel="stylesheet" href="css/tabbedSections.css">
+    </head>
+    <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="/homepage.html">BENİMSİN</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+            <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="homepage.html">Anasayfa <span class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="nav-item">
-                                <a class="nav-link" href="addRecipe.html">Tarif Ekle</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="getRecipes.html">Tarifleri Göster</a>
-                        </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="homepage.html">Anasayfa <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="addRecipe.html">Tarif Ekle</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="getRecipes.html">Tarifleri Göster</a>
+                    </li>
                 </ul>
                 <form class="form-inline my-2 my-lg-0">
                     <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
@@ -36,235 +36,222 @@
                 </form>
             </div>
         </nav>
-	  
-		<!-- Page Content -->
-		<div class="container">
-
-		  <!-- Portfolio Item Heading -->
-		  <div id="recipeHeaderText">
-			  
-		  </div>	
-		  
-
-		  <!-- Portfolio Item Row -->
-		  <div class="row">
-			<div class="col-md-8">
-			  <img class="img-fluid" src="images/noimage.jpg" alt="">
-			</div>
-
-			<div class="col-md-4">
-				
-			    <h3 class="my-3">Tarif Detayları</h3>
-				<div id="recipeDetailText">
-				
-				</div>
-			    
-			    
-				<button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#exampleModal">Tarifi Sil</button>
-				<button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#exampleModalCenter">Tarifi Güncelle</button>
-				<div class="sharethis-inline-share-buttons" style="margin-top: 20px"></div>
-			</div>
-
-		  </div>
-		  <!-- /.row -->
-
-		  <!-- Related Projects Row -->
-		  <h3 class="my-4">İlgili Tarifler</h3>
-
-		  <div class="row">
-
-			<div class="col-md-3 col-sm-6 mb-4">
-			  <a href="#">
-					<img class="img-fluid" src="images/noimage.jpg" alt="">
-				  </a>
-			</div>
-
-			<div class="col-md-3 col-sm-6 mb-4">
-			  <a href="#">
-					<img class="img-fluid" src="images/noimage.jpg" alt="">
-				  </a>
-			</div>
-
-			<div class="col-md-3 col-sm-6 mb-4">
-			  <a href="#">
-					<img class="img-fluid" src="images/noimage.jpg" alt="">
-				  </a>
-			</div>
-
-			<div class="col-md-3 col-sm-6 mb-4">
-			  <a href="#">
-					<img class="img-fluid" src="images/noimage.jpg" alt="">
-				  </a>
-			</div>
-
-		  </div>
-		  <!-- /.row -->
-
-		</div>
-		<!-- /.container -->
-
-		<!-- Modal -->
-		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		  <div class="modal-dialog modal-dialog-centered" role="document">
-			<div class="modal-content">
-			  <div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">Sil</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-				  <span aria-hidden="true">&times;</span>
-				</button>
-			  </div>
-			  <div class="modal-body">
-				<p align="center">Tarif Silinsin mi ?</p>
-			  </div>
-			  <div class="modal-footer">
-				<button type="button" class="btn btn-lg btn-secondary btn-block" data-dismiss="modal">Hayır</button>
-				<input  class="btn btn-lg btn-primary btn-block" id="buttonDelete" type="submit" name="submit" value="Evet" onclick="deleteRecipe()">
-			  </div>
-			</div>
-		  </div>
-		</div> 
-	  
-
-		<!-- Modal -->
-		<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-		  <div class="modal-dialog modal-dialog-centered" role="document">
-			<div class="modal-content">
-			  <div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLongTitle">Güncelle</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-				  <span aria-hidden="true">&times;</span>
-				</button>
-			  </div>
-			  <div class="modal-body">
-				<form id="updateForm" style="margin-top: 30px">
-					<div class="form-group">
-						<!--<label for="labelName">TARİF İSMİ</label>-->
-						<input type="text" class="form-control" id="recipeName" aria-describedby="detailsHelp" placeholder="Enter Recipe Name" required>
-					</div>
-					<div class="form-group">
-						<!--<label for="labelDetails">TARİF DETAYLAR</label>-->
-						<input type="text" class="form-control" id="recipeDetails" aria-describedby="detailsHelp" placeholder="Enter Recipe Details" required>
-					</div>
-					<div class="form-group">
-						<!--<label for="labelTags">TARİF ETİKETLER</label>-->
-						<input type="text" class="form-control" id="recipeTags" aria-describedby="tagsHelp" placeholder="Enter Recipe Tags" required>
-					</div>
-				</form>
-			  </div>
-			  <div class="modal-footer">
-				<button type="button" class="btn btn-secondary btn-block" data-dismiss="modal">Close</button>
-				<input  class="btn btn-lg btn-primary btn-block" id="buttonUpdate" type="submit" name="submit" value="Tarifi Güncelle" onclick="updateRecipe()">
-			  </div>
-			</div>
-		  </div>
-		</div>
-	  
-	  	  <script type="text/javascript" >
-			  function deleteRecipe() {
-					var url_string = window.location.href;
-					var url = new URL(url_string);
-					var idParam = url.searchParams.get("id");
-					var settings = {
-					  "async": true,
-					  "crossDomain": true,
-					  "url": "https://recipe-management-service.herokuapp.com/deleteRecipe/" + idParam,
-					  "method": "DELETE",
-					  "headers": {
-						"content-type": "application/json"
-					  },
-					  "processData": false,
-					  "data": ""
-					}
-
-					$.ajax(settings).done(function (response) {
-						window.location.href = "/getRecipes.html";
-					});
-			  }
-		  
-			  function updateRecipe(id) {
-					var url_string = window.location.href;
-					var url = new URL(url_string);
-					var idParam = url.searchParams.get("id");
-				  	var jsonData;
-					var name = document.getElementById("recipeName").value;
-					var details = document.getElementById("recipeDetails").value;
-					var tags = (document.getElementById("recipeTags").value).split(',');
-					jsonData = "{"
-							+ "\"name\":" + "\"" + name + "\"" + "," 
-							+ "\"details\":" + "\"" + details + "\"" + ","
-							+ "\"photos\": []" + ","
-							+ "\"tags\":[" ;
-							//+ "}";
-					var i;
-					for (i = 0; i < tags.length; i++) {
-						if(i + 1 != tags.length) {
-							jsonData += "\"" + tags[i] + "\",";
-						}else {
-							jsonData += "\"" + tags[i] + "\"]" + "}";
-						}
-					}
-					console.log(jsonData + "\n" + idParam);
-
-
-					var settings = {
-					  "async": true,
-					  "crossDomain": true,
-					  "url": "https://recipe-management-service.herokuapp.com/updateRecipe/" + idParam,
-					  "method": "PUT",
-					  "headers": {
-						"content-type": "application/json"
-					  },
-					  "processData": false,
-					  "data": jsonData
-					}
-
-					$.ajax(settings).done(function (response) {
-						window.location.reload(true);
-					});
-			  }
-			  
-			  $( document ).ready(function() {
-				  var url_string = window.location.href;
-				  var url = new URL(url_string);
-				  var idParam = url.searchParams.get("id");
-				  var settings = {
-				    "async": true,
-				    "crossDomain": true,
-				    "url": "https://recipe-management-service.herokuapp.com/getRecipe/" + idParam,
-				    "method": "GET",
-				    "headers": {
-					  "content-type": "application/json"
-				    },
-				    "processData": false,
-				    "data": ""
-				  }
-				  
-				  $.ajax(settings).done(function (data) {
-				      console.log(data);
-					  var header = document.getElementById("recipeHeaderText");
-				  	  recipeHeaderText.innerHTML = "<h1 class=\"my-4\">" + data.name + "</h1>"; 
-					  var detail = document.getElementById("recipeDetailText");
-					  recipeDetailText.innerHTML = "<p>" + data.details + "</p>";
-					  
-				  });
-			  });
-			  
-			  function searchRecipe() {
-				var tags = document.getElementById("recipeTags").value;
-				console.log(tags);
-				var settings = {
-				  "async": true,
-				  "crossDomain": true,
-				  "url": "https://recipe-management-service.herokuapp.com/searchRecipes/" + tags,
-				  "method": "GET",
-				  "headers": {}
-				}
-
-				$.ajax(settings).done(function (response) {
-				  console.log("response: " + response);
-				});
-			}
-			  
-	  </script>
-  </body>
+        <!-- Page Content -->
+        <div class="container">
+            <!-- Portfolio Item Row -->
+            <div class="row">
+                <div class="col-md-8">
+                    <img class="img-fluid" src="images/noimage.jpg" alt="">
+                </div>
+                <div class="col-md-4">
+                    <div id="recipeHeaderText">
+                    </div>
+                    <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#exampleModal">Tarifi Sil</button>
+                    <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#exampleModalCenter">Tarifi Güncelle</button>
+                    <div class="sharethis-inline-share-buttons" style="margin-top: 20px"></div>
+                </div>
+            </div>
+            <div class="wrap visible-lg" style="margin-top: 20px">
+                <ul class="tabs group">
+                    <li><a class="active" href="#/one">Tarif Detaylar</a></li>
+                    <li><a href="#/two">Tarif Medya</a></li>
+                    <li><a href="#/three">Yorumlar</a></li>
+                </ul>
+                <div id="content">
+                    <div id="one" class="data">
+                        <div class="row" id="detailSection" >
+                        </div>
+                    </div>
+                    <div id="two" class="data">
+                        <div class="row">
+                        </div>
+                    </div>
+                    <div id="three" class="data">
+                        <div class="row">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.container -->
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Sil</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p align="center">Tarif Silinsin mi ?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-lg btn-secondary btn-block" data-dismiss="modal">Hayır</button>
+                        <input  class="btn btn-lg btn-primary btn-block" id="buttonDelete" type="submit" name="submit" value="Evet" onclick="deleteRecipe()">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Güncelle</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="updateForm" style="margin-top: 30px">
+                            <div class="form-group">
+                                <!--<label for="labelName">TARİF İSMİ</label>-->
+                                <input type="text" class="form-control" id="recipeName" aria-describedby="detailsHelp" placeholder="Enter Recipe Name" required>
+                            </div>
+                            <div class="form-group">
+                                <!--<label for="labelDetails">TARİF DETAYLAR</label>-->
+                                <input type="text" class="form-control" id="recipeDetails" aria-describedby="detailsHelp" placeholder="Enter Recipe Details" required>
+                            </div>
+                            <div class="form-group">
+                                <!--<label for="labelTags">TARİF ETİKETLER</label>-->
+                                <input type="text" class="form-control" id="recipeTags" aria-describedby="tagsHelp" placeholder="Enter Recipe Tags" required>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal">Close</button>
+                        <input  class="btn btn-lg btn-primary btn-block" id="buttonUpdate" type="submit" name="submit" value="Tarifi Güncelle" onclick="updateRecipe()">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            (function($) {
+            
+            	var tabs =  $(".tabs li a");
+            
+            	tabs.click(function() {
+            		var content = this.hash.replace('/','');
+            		tabs.removeClass("active");
+            		$(this).addClass("active");
+            	$("#content").find('.data').hide();
+            	$(content).fadeIn(200);
+            	});
+            
+            })(jQuery);
+            $(document).ready(function() {
+            	$("#content").find('.data').hide();
+            	$("#content").find('#one').show();
+            });
+        </script>
+        <script type="text/javascript" >
+            function deleteRecipe() {
+            var url_string = window.location.href;
+            var url = new URL(url_string);
+            var idParam = url.searchParams.get("id");
+            var settings = {
+              "async": true,
+              "crossDomain": true,
+              "url": "https://recipe-management-service.herokuapp.com/deleteRecipe/" + idParam,
+              "method": "DELETE",
+              "headers": {
+            	"content-type": "application/json"
+              },
+              "processData": false,
+              "data": ""
+            }
+            
+            $.ajax(settings).done(function (response) {
+            	window.location.href = "/getRecipes.html";
+            });
+            }
+            
+            function updateRecipe(id) {
+            var url_string = window.location.href;
+            var url = new URL(url_string);
+            var idParam = url.searchParams.get("id");
+             	var jsonData;
+            var name = document.getElementById("recipeName").value;
+            var details = document.getElementById("recipeDetails").value;
+            var tags = (document.getElementById("recipeTags").value).split(',');
+            jsonData = "{"
+            		+ "\"name\":" + "\"" + name + "\"" + "," 
+            		+ "\"details\":" + "\"" + details + "\"" + ","
+            		+ "\"photos\": []" + ","
+            		+ "\"tags\":[" ;
+            		//+ "}";
+            var i;
+            for (i = 0; i < tags.length; i++) {
+            	if(i + 1 != tags.length) {
+            		jsonData += "\"" + tags[i] + "\",";
+            	}else {
+            		jsonData += "\"" + tags[i] + "\"]" + "}";
+            	}
+            }
+            console.log(jsonData + "\n" + idParam);
+            
+            
+            var settings = {
+              "async": true,
+              "crossDomain": true,
+              "url": "https://recipe-management-service.herokuapp.com/updateRecipe/" + idParam,
+              "method": "PUT",
+              "headers": {
+            	"content-type": "application/json"
+              },
+              "processData": false,
+              "data": jsonData
+            }
+            
+            $.ajax(settings).done(function (response) {
+            	window.location.reload(true);
+            });
+            }
+            
+            $( document ).ready(function() {
+             var url_string = window.location.href;
+             var url = new URL(url_string);
+             var idParam = url.searchParams.get("id");
+             var settings = {
+               "async": true,
+               "crossDomain": true,
+               "url": "https://recipe-management-service.herokuapp.com/getRecipe/" + idParam,
+               "method": "GET",
+               "headers": {
+              "content-type": "application/json"
+               },
+               "processData": false,
+               "data": ""
+             }
+             
+             $.ajax(settings).done(function (data) {
+                 console.log(data);
+              var header = document.getElementById("recipeHeaderText");
+             	  recipeHeaderText.innerHTML = "<h3 class=\"my-4\">" + data.name + "</h3>"; 
+              var detail = document.getElementById("detailSection");
+              detailSection.innerHTML = "<p>" + data.details + "</p>";
+              
+             });
+            });
+            
+            function searchRecipe() {
+            var tags = document.getElementById("recipeTags").value;
+            console.log(tags);
+            var settings = {
+             "async": true,
+             "crossDomain": true,
+             "url": "https://recipe-management-service.herokuapp.com/searchRecipes/" + tags,
+             "method": "GET",
+             "headers": {}
+            }
+            
+            $.ajax(settings).done(function (response) {
+             console.log("response: " + response);
+            });
+            }
+            
+        </script>
+    </body>
 </html>
