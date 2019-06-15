@@ -147,94 +147,115 @@
             });
         </script>
         <script type="text/javascript" >
-            function deleteRecipe() {
-            var url_string = window.location.href;
-            var url = new URL(url_string);
-            var idParam = url.searchParams.get("id");
-            var settings = {
-              "async": true,
-              "crossDomain": true,
-              "url": "https://recipe-management-service.herokuapp.com/deleteRecipe/" + idParam,
-              "method": "DELETE",
-              "headers": {
-            	"content-type": "application/json"
-              },
-              "processData": false,
-              "data": ""
-            }
             
-            $.ajax(settings).done(function (response) {
-            	window.location.href = "/getRecipes.html";
+            $( document ).ready(function() {
+                var url_string = window.location.href;
+                var url = new URL(url_string);
+                var idParam = url.searchParams.get("id");
+                var settings = {
+                    "async": true,
+                    "crossDomain": true,
+                    "url": "https://recipe-management-service.herokuapp.com/getRecipe/" + idParam,
+                    "method": "GET",
+                    "headers": {
+                        "content-type": "application/json"
+                    },
+                    "processData": false,
+                    "data": ""
+                }
+
+                $.ajax(settings).done(function (data) {
+                    //console.log(data);
+                    var header = document.getElementById("recipeHeaderText");
+                    recipeHeaderText.innerHTML = "<h3 class=\"my-4\">" + data.name + "</h3>";
+                    var detail = document.getElementById("detailSection");
+                    detailSection.innerHTML = "<p>" + data.details + "</p>";
+
+                });
             });
+            
+            function deleteRecipe() {
+                var url_string = window.location.href;
+                var url = new URL(url_string);
+                var idParam = url.searchParams.get("id");
+                var settings = {
+                  "async": true,
+                  "crossDomain": true,
+                  "url": "https://recipe-management-service.herokuapp.com/deleteRecipe/" + idParam,
+                  "method": "DELETE",
+                  "headers": {
+                    "content-type": "application/json"
+                  },
+                  "processData": false,
+                  "data": ""
+                }
+                
+                $.ajax(settings).done(function (response) {
+                    window.location.href = "/getRecipes.html";
+                });
             }
             
             function updateRecipe(id) {
-            var url_string = window.location.href;
-            var url = new URL(url_string);
-            var idParam = url.searchParams.get("id");
-             	var jsonData;
-            var name = document.getElementById("recipeName").value;
-            var details = document.getElementById("recipeDetails").value;
-            var tags = (document.getElementById("recipeTags").value).split(',');
-            jsonData = "{"
-            		+ "\"name\":" + "\"" + name + "\"" + "," 
-            		+ "\"details\":" + "\"" + details + "\"" + ","
-            		+ "\"photos\": []" + ","
-            		+ "\"tags\":[" ;
-            		//+ "}";
-            var i;
-            for (i = 0; i < tags.length; i++) {
-            	if(i + 1 != tags.length) {
-            		jsonData += "\"" + tags[i] + "\",";
-            	}else {
-            		jsonData += "\"" + tags[i] + "\"]" + "}";
-            	}
+                var url_string = window.location.href;
+                var url = new URL(url_string);
+                var idParam = url.searchParams.get("id");
+                var settings = {
+                    "async": true,
+                    "crossDomain": true,
+                    "url": "https://recipe-management-service.herokuapp.com/getRecipe/" + idParam,
+                    "method": "GET",
+                    "headers": {
+                        "content-type": "application/json"
+                    },
+                    "processData": false,
+                    "data": ""
+                }
+
+                $.ajax(settings).done(function (data) {
+                    //console.log("id: " + idParam);
+                    var name = document.getElementById("recipeName").value;
+                    var details = document.getElementById("recipeDetails").value;
+                    var tags = (document.getElementById("recipeTags").value).split(',');
+                    if(name.localeCompare("") != 1) {
+                        name = data.name;
+                    }
+                    if (details.localeCompare("") != 1) {
+                        details = data.details;
+                    }
+                    if (tags.length == 0) {
+                        tags = data.tags;
+                    }
+                    jsonData = "{"
+                        + "\"name\":" + "\"" + name + "\"" + ","
+                        + "\"details\":" + "\"" + details + "\"" + ","
+                        + "\"photos\": []" + ","
+                        + "\"tags\":[" ;
+                    //+ "}";
+                    var i;
+                    for (i = 0; i < tags.length; i++) {
+                        if(i + 1 != tags.length) {
+                            jsonData += "\"" + tags[i] + "\",";
+                        }else {
+                            jsonData += "\"" + tags[i] + "\"]" + "}";
+                        }
+                    }
+                    var settings = {
+                        "async": true,
+                        "crossDomain": true,
+                        "url": "https://recipe-management-service.herokuapp.com/updateRecipe/" + idParam,
+                        "method": "PUT",
+                        "headers": {
+                            "content-type": "application/json"
+                        },
+                        "processData": false,
+                        "data": jsonData
+                    }
+                    $.ajax(settings).done(function (response) {
+                        window.location.reload(true);
+                    });
+
+                });
             }
-            console.log(jsonData + "\n" + idParam);
-            
-            
-            var settings = {
-              "async": true,
-              "crossDomain": true,
-              "url": "https://recipe-management-service.herokuapp.com/updateRecipe/" + idParam,
-              "method": "PUT",
-              "headers": {
-            	"content-type": "application/json"
-              },
-              "processData": false,
-              "data": jsonData
-            }
-            
-            $.ajax(settings).done(function (response) {
-            	window.location.reload(true);
-            });
-            }
-            
-            $( document ).ready(function() {
-             var url_string = window.location.href;
-             var url = new URL(url_string);
-             var idParam = url.searchParams.get("id");
-             var settings = {
-               "async": true,
-               "crossDomain": true,
-               "url": "https://recipe-management-service.herokuapp.com/getRecipe/" + idParam,
-               "method": "GET",
-               "headers": {
-              "content-type": "application/json"
-               },
-               "processData": false,
-               "data": ""
-             }
-             
-             $.ajax(settings).done(function (data) {
-                 console.log(data);
-              var header = document.getElementById("recipeHeaderText");
-             	  recipeHeaderText.innerHTML = "<h3 class=\"my-4\">" + data.name + "</h3>"; 
-              var detail = document.getElementById("detailSection");
-              detailSection.innerHTML = "<p>" + data.details + "</p>";
-              
-             });
-            });
             
             function searchRecipe() {
             var tags = document.getElementById("recipeTags").value;
