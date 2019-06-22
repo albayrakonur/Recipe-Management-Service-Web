@@ -13,13 +13,23 @@
     </head>
 	<style>
 		.carousel-caption > p {
-			white-space: nowrap; 
-			overflow: hidden; 
+			white-space: nowrap;
+			overflow: hidden;
 			text-overflow: ellipsis;
 		}
+		.carousel-control-next-icon, .carousel-control-prev-icon {
+			background: none !important;
+		}
+
+		.carousel-control-next-icon > i, .carousel-control-prev-icon > i {
+			font-size: 50px;
+			color: white;
+			background-color: gray;
+			padding: 5px;
+			border-radius: 5px;
+		}
 	</style>
-	
-    <body>
+	<body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="/homepage.html">BENİMSİN</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,18 +53,18 @@
                 </form>
             </div>
         </nav>
-		
+
 		<div class="container">
 			<h1 class="font-weight-light text-center text-lg-left mt-4 mb-0">Recipe Management Service</h1>
             <hr class="mt-2 mb-5">
-			
+
 			<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
 			  <ol class="carousel-indicators" id="listElement">
 				  <!-- -->
 			  </ol>
 			  <div class="carousel-inner" style="border-radius: 10px" id="itemBody">
-				
-				  
+
+
 			  </div>
 			  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
 				<span class="carousel-control-prev-icon" aria-hidden="true"><i class="fa fa-angle-double-left" aria-hidden="true"></i></span>
@@ -66,9 +76,9 @@
 			  </a>
 			</div>
 		</div>
-		
+
 		<script>
-			
+
 			$( document ).ready(function() {
     			//alert("Ready!");
 				var settings = {
@@ -82,7 +92,6 @@
 				  "processData": false,
 				  "data": ""
 				}
-
 				$.ajax(settings).done(function (data) {
 				  	console.log(data);
 					var itemList = document.getElementById("listElement");
@@ -98,7 +107,7 @@
 							itemBodyHtml += "<div class=\"carousel-item active\">" + "<a href=" + urlParam + "> <img class=\"d-block w-100\" src=\"images/makarna.jpg\" alt=\"First slide\" style=\"max-width: 100%; height: 500px; margin: auto;\"> </a>" + "<div class=\"carousel-caption d-none d-md-block\">" + "<h5>" + data[i].name + "</h5>" + "<p>" + data[i].details + "</p>" + "</div></div>";
 						}else {
 							itemListHtml += "<li data-target=\"#carouselExampleIndicators\" data-slide-to=\"" + count + "\"></li>";
-							
+
 							itemBodyHtml += "<div class=\"carousel-item\">" + "<a href=" + urlParam + "> <img class=\"d-block w-100\" src=\"images/makarna.jpg\" alt=\"First slide\" style=\"max-width: 100%; height: 500px; margin: auto;\"> </a>" + "<div class=\"carousel-caption d-none d-md-block\">" + "<h5>" + data[i].name + "</h5>" + "<p>" + data[i].details + "</p>" + "</div></div>";
 							count += 1;
 						}
@@ -106,25 +115,10 @@
 					//alert(itemBodyHtml);
 					itemList.innerHTML = itemListHtml;
 					itemBody.innerHTML = itemBodyHtml;
-				});				
+				});
 			});
-			
-			
+
+
 		</script>
-		
-		<style>
-			.carousel-control-next-icon, .carousel-control-prev-icon {
-				background: none !important;
-			}
-			
-			.carousel-control-next-icon > i, .carousel-control-prev-icon > i {
-				font-size: 50px;
-				color: white;
-				background-color: gray;
-				padding: 5px;
-				border-radius: 5px;
-			}
-		</style>
-        
   </body>
 </html>

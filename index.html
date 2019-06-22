@@ -20,9 +20,7 @@
     =========================================================
     * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
     -->
-    <link href="css/main.css" rel="stylesheet">
-    <script type="text/javascript" src="js/main.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link href="./main.css" rel="stylesheet">
 </head>
 
 <style>
@@ -37,11 +35,11 @@
         padding: 5px;
         border-radius: 5px;
     }
-     .carousel-caption > p {
-         white-space: nowrap;
-         overflow: hidden;
-         text-overflow: ellipsis;
-     }
+    .carousel-caption > p {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 </style>
 
 <body>
@@ -535,8 +533,11 @@
                 </div>
             </div>
         </div>
+        <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
     </div>
 </div>
+<script type="text/javascript" src="./assets/scripts/main.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
 
     $( document ).ready(function() {
@@ -564,11 +565,11 @@
                 var urlParam = "recipe.html?id=" + data[i].id;
                 if(i == data.length-1) {
                     itemListHtml += "<li data-target=\"#carouselExampleIndicators\" data-slide-to=\"0\" class=\"active\"></li>";
-                    itemBodyHtml += "<div class=\"carousel-item active\">" + "<a href=" + urlParam + "> <img class=\"d-block w-100\" src=\"images/makarna.jpg\" alt=\"First slide\" style=\"max-width: 100%; height: 500px; margin: auto;\"> </a>" + "<div class=\"carousel-caption d-none d-md-block\">" + "<h5>" + data[i].name + "</h5>" + "<p>" + data[i].details + "</p>" + "</div></div>";
+                    itemBodyHtml += "<div class=\"carousel-item active\">" + "<a href=" + urlParam + "> <img class=\"d-block w-100\" src=\"assets/images/makarna.jpg\" alt=\"First slide\" style=\"max-width: 100%; height: 500px; margin: auto;\"> </a>" + "<div class=\"carousel-caption d-none d-md-block\">" + "<h5>" + data[i].name + "</h5>" + "<p>" + data[i].details + "</p>" + "</div></div>";
                 }else {
                     itemListHtml += "<li data-target=\"#carouselExampleIndicators\" data-slide-to=\"" + count + "\"></li>";
 
-                    itemBodyHtml += "<div class=\"carousel-item\">" + "<a href=" + urlParam + "> <img class=\"d-block w-100\" src=\"images/makarna.jpg\" alt=\"First slide\" style=\"max-width: 100%; height: 500px; margin: auto;\"> </a>" + "<div class=\"carousel-caption d-none d-md-block\">" + "<h5>" + data[i].name + "</h5>" + "<p>" + data[i].details + "</p>" + "</div></div>";
+                    itemBodyHtml += "<div class=\"carousel-item\">" + "<a href=" + urlParam + "> <img class=\"d-block w-100\" src=\"assets/images/makarna.jpg\" alt=\"First slide\" style=\"max-width: 100%; height: 500px; margin: auto;\"> </a>" + "<div class=\"carousel-caption d-none d-md-block\">" + "<h5>" + data[i].name + "</h5>" + "<p>" + data[i].details + "</p>" + "</div></div>";
                     count += 1;
                 }
             }
