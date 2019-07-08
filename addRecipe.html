@@ -456,23 +456,36 @@
                 <div class="container">
                     <h1 class="font-weight-light text-center text-lg-left mt-4 mb-0">Tarif Ekle</h1>
                     <hr class="mt-2 mb-5">
-                    <div class="col-md-4 offset-md-4">
-                        <form id="addForm" style="margin-top: 30px">
-                            <div class="form-group">
-                                <!--<label for="labelName">TARİF İSMİ</label>-->
-                                <input type="text" class="form-control" id="recipeName" aria-describedby="detailsHelp" placeholder="Enter Recipe Name" required>
-                            </div>
-                            <div class="form-group">
-                                <!--<label for="labelDetails">TARİF DETAYLAR</label>-->
-                                <input type="text" class="form-control" id="recipeDetails" aria-describedby="detailsHelp" placeholder="Enter Recipe Details" required>
-                            </div>
-                            <div class="form-group">
-                                <!--<label for="labelTags">TARİF ETİKETLER</label>-->
-                                <input type="text" class="form-control" id="recipeTags" aria-describedby="tagsHelp" placeholder="Enter Recipe Tags" required>
-                            </div>
-                            <!-- Veri kodlama türü, enctype, aşağıdaki gibi belirtilmek ZORUNDADIR -->
-                            <input style="margin-top: 10px;" class="btn btn-lg btn-primary btn-block" id="buttonAdd" type="submit" name="submit" value="Tarif Ekle" onclick="addRecipeFunc()">
-                        </form>
+                    <div class="main-card mb-3 card" style="border-radius: 20px">
+                        <div class="card-body"><h5 class="card-title"></h5>
+                            <form class="" id="addRecipeForm">
+                                <div class="position-relative row form-group"><label for="recipeName" class="col-sm-2 col-form-label">Tarif Adı</label>
+                                    <div class="col-sm-10">
+                                        <input id="recipeName" placeholder="Enter Recipe Name" type="text" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="position-relative row form-group"><label for="recipeDetails" class="col-sm-2 col-form-label">Tarif Detayı</label>
+                                    <div class="col-sm-10">
+                                        <textarea id="recipeDetails" class="form-control" placeholder="Enter Recipe Details" required></textarea>
+                                    </div>
+                                </div>
+                                <div class="position-relative row form-group"><label for="recipeTags" class="col-sm-2 col-form-label">Tarif Etiketleri</label>
+                                    <div class="col-sm-10">
+                                        <input id="recipeTags" placeholder="Enter Recipe Tags" type="text" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="position-relative row form-group"><label for="exampleFile" class="col-sm-2 col-form-label">File</label>
+                                    <div class="col-sm-10"><input name="file" id="exampleFile" type="file" class="form-control-file" multiple required>
+                                        <small class="form-text text-muted">Tarife Resim Ekle</small>
+                                    </div>
+                                </div>
+                                <div class="position-relative row form-check">
+                                    <div class="col-sm-10 offset-sm-2">
+                                        <button class="btn btn-lg btn-primary">Tarifi Ekle</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -520,42 +533,45 @@
 <script type="text/javascript" src="./assets/scripts/main.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript">
-    function addRecipeFunc() {
-        var jsonData;
-        var name = document.getElementById("recipeName").value;
-        var details = document.getElementById("recipeDetails").value;
-        var tags = (document.getElementById("recipeTags").value).split(',');
-        jsonData = "{"
-            + "\"name\":" + "\"" + name + "\"" + ","
-            + "\"details\":" + "\"" + details + "\"" + ","
-            + "\"photos\": []" + ","
-            + "\"tags\":[" ;
-        //+ "}";
-        var i;
-        for (i = 0; i < tags.length; i++) {
-            if(i + 1 != tags.length) {
-                jsonData += "\"" + tags[i] + "\",";
-            }else {
-                jsonData += "\"" + tags[i] + "\"]" + "}";
+    $(function() {
+        $("#addRecipeForm").on("submit",function(e){
+            var jsonData;
+            var name = document.getElementById("recipeName").value;
+            var details = document.getElementById("recipeDetails").value;
+            var tags = (document.getElementById("recipeTags").value).split(',');
+            jsonData = "{"
+                + "\"name\":" + "\"" + name + "\"" + ","
+                + "\"details\":" + "\"" + details + "\"" + ","
+                + "\"photos\": []" + ","
+                + "\"tags\":[" ;
+            //+ "}";
+            var i;
+            for (i = 0; i < tags.length; i++) {
+                if(i + 1 != tags.length) {
+                    jsonData += "\"" + tags[i] + "\",";
+                }else {
+                    jsonData += "\"" + tags[i] + "\"]" + "}";
+                }
             }
-        }
-        //alert("{\"name\":\"" + name + "\",\"details\":\"" + details + "\",\"photos\":[]" + "}");
-        var settings = {
-            "async": true,
-            "crossDomain": true,
-            "url": "https://recipe-management-service.herokuapp.com/addRecipe",
-            "method": "POST",
-            "headers": {
-                "content-type": "application/json"
-            },
-            "processData": false,
-            "data": jsonData
-        }
-        $.ajax(settings).done(function (response) {
-            window.location.href = "getRecipes.html";
+            e.preventDefault();
+            console.log((jsonData))
+            //alert("{\"name\":\"" + name + "\",\"details\":\"" + details + "\",\"photos\":[]" + "}");
+            var settings = {
+                "async": true,
+                "crossDomain": true,
+                "url": "https://recipe-management-service.herokuapp.com/addRecipe",
+                "method": "POST",
+                "headers": {
+                    "content-type": "application/json"
+                },
+                "processData": false,
+                "data": jsonData
+            }
+            $.ajax(settings).done(function (response) {
+                //window.location.href = "getRecipes.html";
+            });
         });
-    }
+    });
 </script>
 </body>
-
 </html>
