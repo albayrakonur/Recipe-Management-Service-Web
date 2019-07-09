@@ -478,39 +478,39 @@
                     <div class="main-card mb-3 card" style="border-radius: 20px; box-shadow: 5px 5px 5px #e1e1e1;">
                         <div class="card-body"><h5 class="card-title">Kullanıcı Kayıt</h5>
                             <div class="panel-body">
-                                <form id="createStudentForm">
+                                <form id="createUserForm">
                                     <div class="form-group mb-lg">
                                         <div class="row form-group">
                                             <div class="col-lg-6">
                                                 <label>Firstname</label>
-                                                <input name="name" id="stfirstName" type="text" class="form-control input-lg" />
+                                                <input id="user_name" type="text" class="form-control input-lg" required/>
                                             </div>
                                             <div class="col-lg-6">
                                                 <label>Lastname</label>
-                                                <input name="name" id="stlastName" type="text" class="form-control input-lg" />
+                                                <input id="user_surname" type="text" class="form-control input-lg" required/>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group mb-lg">
-                                        <label>E-mail Address</label>
-                                        <input name="email" id="stemail" type="email" class="form-control input-lg" />
+                                        <label>username</label>
+                                        <input id="user_username" type="text" class="form-control input-lg" required/>
                                     </div>
                                     <div class="form-group mb-none">
                                         <div class="row">
                                             <div class="col-sm-6 mb-lg">
                                                 <label>Password</label>
-                                                <input name="pwd" id="stpassword" type="password" class="form-control input-lg" />
+                                                <input id="user_pwd" type="password" class="form-control input-lg" required/>
                                             </div>
                                             <div class="col-sm-6 mb-lg">
                                                 <label>Password Confirmation</label>
-                                                <input name="pwd_confirm" id="stpasswordconfirm" type="password" class="form-control input-lg" />
+                                                <input id="user_pwd_confirm" type="password" class="form-control input-lg" required/>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-8">
                                             <div class="checkbox-custom checkbox-default">
-                                                <input id="AgreeTerms" name="agreeterms" type="checkbox"/>
+                                                <input id="AgreeTerms" name="agreeterms" type="checkbox" required/>
                                                 <label for="AgreeTerms">I agree with <a href="#">terms of use</a></label>
                                             </div>
                                         </div>
@@ -570,6 +570,42 @@
 </div>
 <script type="text/javascript" src="./assets/scripts/main.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    $(function() {
+        $("#createUserForm").on("submit",function(e){
+            var jsonData;
+            var name = document.getElementById("user_name").value;
+            var surname = document.getElementById("user_surname").value;
+            var username = document.getElementById("user_username").value;
+            var password = document.getElementById("user_pwd").value;
+            var passwordconfirm = document.getElementById("user_pwd_confirm").value;
+            jsonData = "{"
+                + "\"fullname\":" + "\"" + name + " " + surname + "\"" + ","
+                + "\"username\":" + "\"" + username + "\"" + ","
+                + "\"password\":" + "\"" + password + "\""
+                + "}" ;
+
+            //console.log(jsonData);
+            e.preventDefault(); // will cancel the submit even if errors below
+            //console.log("sa");
+            var settings = {
+                "async": true,
+                "crossDomain": true,
+                "url": "https://recipe-management-service.herokuapp.com/signup",
+                "method": "POST",
+                "headers": {
+                    "content-type": "application/json"
+                },
+                "processData": false,
+                "data": jsonData
+            }
+            $.ajax(settings).done(function (data) {
+                window.location.href = "login.html";
+            });
+        });
+    });
+</script>
+
 </body>
 
 </html>
