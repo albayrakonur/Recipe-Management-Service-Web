@@ -469,7 +469,7 @@
                     </div>
                 </div>
                 <div class="container">
-                    <div class="main-card mb-3 card" style="border-radius: 20px; box-shadow: 5px 5px 5px #e1e1e1;">
+                    <div class="main-card mb-3 card" style="border-radius: 50px; box-shadow: 5px 5px 5px #e1e1e1;">
                         <div class="card-body"><h5 class="card-title"></h5>
                             <h1 class="font-weight-light text-center text-lg-left mt-4 mb-0">Arama Sonucları</h1>
                             <hr class="mt-2 mb-5">
@@ -548,22 +548,6 @@
             list.innerHTML = items;
         });
     });
-
-    function searchRecipe() {
-        var tags = document.getElementById("recipeTags").value;
-        console.log(tags);
-        var settings = {
-            "async": true,
-            "crossDomain": true,
-            "url": "https://recipe-management-service.herokuapp.com/searchRecipes/" + tags,
-            "method": "GET",
-            "headers": {}
-        }
-        $.ajax(settings).done(function (response) {
-            console.log("response: " + response);
-        });
-    }
-
 </script>
 </body>
 
