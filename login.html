@@ -77,43 +77,20 @@
         </div>
         <div class="app-header__content">
             <div class="app-header-left">
-                <div class="search-wrapper">
-                    <div class="input-holder">
-                        <input type="text" class="search-input" placeholder="Type to search">
-                        <button class="search-icon"><span></span></button>
-                    </div>
-                    <button class="close"></button>
-                </div>
+                <form id="searchForm" class="form-inline my-2 my-lg-0">
+                    <input id="searchKeyword" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-primary my-2 my-sm-0">Search</button>
+                </form>
             </div>
             <div class="app-header-right">
                 <div class="header-btn-lg pr-0">
                     <div class="widget-content p-0">
                         <div class="widget-content-wrapper">
                             <div class="widget-content-left">
-                                <div class="btn-group">
-                                    <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn">
-                                        <img width="42" class="rounded-circle" src="assets/images/avatars/noimage.jpg" alt="">
-                                        <i class="fa fa-angle-down ml-2 opacity-8"></i>
-                                    </a>
-                                    <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
-                                        <button type="button" tabindex="0" class="dropdown-item">User Account</button>
-                                        <button type="button" tabindex="0" class="dropdown-item">Settings</button>
-                                        <h6 tabindex="-1" class="dropdown-header">Header</h6>
-                                        <button type="button" tabindex="0" class="dropdown-item">Actions</button>
-                                        <div tabindex="-1" class="dropdown-divider"></div>
-                                        <button type="button" tabindex="0" class="dropdown-item">Dividers</button>
-                                        <a type="button" tabindex="0" class="btn btn-primary dropdown-item" href="login.html" role="button">Login</a>
-                                        <a type="button" tabindex="0" class="btn btn-primary dropdown-item" href="signup.html" role="button">Signup</a>
-                                    </div>
-                                </div>
+                                <a class="nav-link" href="login.html">Login</a>
                             </div>
-                            <div class="widget-content-left  ml-3 header-user-info">
-                                <div class="widget-heading">
-                                    Atakan Filgöz
-                                </div>
-                                <div class="widget-subheading">
-                                    Toplantı Başkanı ve Yazmanı
-                                </div>
+                            <div class="widget-content-left">
+                                <a class="nav-link" href="signup.html">Sign-Up</a>
                             </div>
                         </div>
                     </div>
@@ -478,11 +455,11 @@
                     <div class="main-card mb-3 card" style="border-radius: 20px; box-shadow: 5px 5px 5px #e1e1e1;">
                         <div class="card-body"><h5 class="card-title">Kullanıcı Girisi</h5>
                             <div class="panel-body">
-                                <form>
+                                <form id="userLoginForm">
                                     <div class="form-group mb-lg">
                                         <label>Username</label>
                                         <div class="input-group input-group-icon">
-                                            <input name="username" type="text" class="form-control input-lg" />
+                                            <input id="user_username" type="text" class="form-control input-lg" />
                                         </div>
                                     </div>
                                     <div class="form-group mb-lg">
@@ -491,7 +468,7 @@
                                             <a href="#" class="pull-right">Lost Password?</a>
                                         </div>
                                         <div class="input-group input-group-icon">
-                                            <input name="pwd" type="password" class="form-control input-lg" />
+                                            <input id="user_password" type="password" class="form-control input-lg" />
                                         </div>
                                     </div>
                                     <div class="row">
@@ -558,6 +535,39 @@
 </div>
 <script type="text/javascript" src="./assets/scripts/main.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    $(function() {
+        $("#userLoginForm").on("submit",function(e){
+            var jsonData;
+            var username = document.getElementById("user_username").value;
+            var password = document.getElementById("user_password").value;
+            jsonData = "{"
+                + "\"username\":" + "\"" + username + "\"" + ","
+                + "\"password\":" + "\"" + password + "\""
+                + "}" ;
+
+            //console.log(jsonData);
+            e.preventDefault(); // will cancel the submit even if errors below
+            $.ajax({
+                async: true,
+                crossDomain: true,
+                url: "https://recipe-management-service.herokuapp.com/login",
+                type: "POST",
+                headers : {
+                    "accept": "application/json",
+                },
+                processData: false,
+                data: jsonData,
+                success: function(data, textStatus, request){
+                    alert(request.getAllResponseHeaders("Authorization"));
+                },
+                error: function (request, textStatus, errorThrown) {
+                    alert("errrorr");
+                }
+            });
+        });
+    });
+</script>
 </body>
 
 </html>
