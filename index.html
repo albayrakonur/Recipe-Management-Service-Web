@@ -547,13 +547,9 @@
         var settings = {
             "async": true,
             "crossDomain": true,
-            "url": "https://recipe-management-service.herokuapp.com/getRecipes/",
+            "url": "https://recipe-management-service.herokuapp.com/getRecipes",
             "method": "GET",
-            "headers": {
-                "content-type": "application/json"
-            },
-            "processData": false,
-            "data": ""
+            "headers": {}
         }
         $.ajax(settings).done(function (data) {
             console.log(data);
