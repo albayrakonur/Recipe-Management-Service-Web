@@ -433,28 +433,35 @@
                     </div>
                 </div>
                 <div class="container">
-                    <h1 class="font-weight-light text-center text-lg-left mt-4 mb-0">Tarif Ekle</h1>
-                    <hr class="mt-2 mb-5">
-                    <div class="main-card mb-3 card" style="border-radius: 20px; box-shadow: 5px 5px 5px #e1e1e1;">
-                        <div class="card-body"><h5 class="card-title"></h5>
+                    <div class="main-card mb-3 card" style="border-radius: 50px; box-shadow: 5px 5px 5px #e1e1e1;">
+                        <div class="card-body">
+                            <h5 class="card-title"></h5>
+                            <h1 class="font-weight-light text-center text-lg-left mt-4 mb-0">Tarif Ekle</h1>
+                            <hr class="mt-2 mb-5">
+
                             <form class="" id="addRecipeForm">
-                                <div class="position-relative row form-group"><label for="recipeName" class="col-sm-2 col-form-label">Tarif Adı</label>
+                                <div class="position-relative row form-group">
+                                    <label for="recipeName" class="col-sm-2 col-form-label">Tarif Adı</label>
                                     <div class="col-sm-10">
                                         <input id="recipeName" placeholder="Enter Recipe Name" type="text" class="form-control" required>
                                     </div>
                                 </div>
-                                <div class="position-relative row form-group"><label for="recipeDetails" class="col-sm-2 col-form-label">Tarif Detayı</label>
+                                <div class="position-relative row form-group">
+                                    <label for="recipeDetails" class="col-sm-2 col-form-label">Tarif Detayı</label>
                                     <div class="col-sm-10">
                                         <textarea id="recipeDetails" class="form-control" placeholder="Enter Recipe Details" required></textarea>
                                     </div>
                                 </div>
-                                <div class="position-relative row form-group"><label for="recipeTags" class="col-sm-2 col-form-label">Tarif Etiketleri</label>
+                                <div class="position-relative row form-group">
+                                    <label for="recipeTags" class="col-sm-2 col-form-label">Tarif Etiketleri</label>
                                     <div class="col-sm-10">
                                         <input id="recipeTags" placeholder="Enter Recipe Tags" type="text" class="form-control" required>
                                     </div>
                                 </div>
-                                <div class="position-relative row form-group"><label for="exampleFile" class="col-sm-2 col-form-label">File</label>
-                                    <div class="col-sm-10"><input name="file" id="exampleFile" type="file" class="form-control-file" multiple required>
+                                <div class="position-relative row form-group">
+                                    <label for="exampleFile" class="col-sm-2 col-form-label">File</label>
+                                    <div class="col-sm-10">
+                                        <input name="file" id="exampleFile" type="file" class="form-control-file" multiple required>
                                         <small class="form-text text-muted">Tarife Resim Ekle</small>
                                     </div>
                                 </div>
@@ -513,22 +520,18 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript">
     $(function() {
-        $("#addRecipeForm").on("submit",function(e){
+        $("#addRecipeForm").on("submit", function(e) {
             var jsonData;
             var name = document.getElementById("recipeName").value;
             var details = document.getElementById("recipeDetails").value;
             var tags = (document.getElementById("recipeTags").value).split(',');
-            jsonData = "{"
-                + "\"name\":" + "\"" + name + "\"" + ","
-                + "\"details\":" + "\"" + details + "\"" + ","
-                + "\"photos\": []" + ","
-                + "\"tags\":[" ;
+            jsonData = "{" + "\"name\":" + "\"" + name + "\"" + "," + "\"details\":" + "\"" + details + "\"" + "," + "\"photos\": []" + "," + "\"tags\":[";
             //+ "}";
             var i;
             for (i = 0; i < tags.length; i++) {
-                if(i + 1 != tags.length) {
+                if (i + 1 != tags.length) {
                     jsonData += "\"" + tags[i] + "\",";
-                }else {
+                } else {
                     jsonData += "\"" + tags[i] + "\"]" + "}";
                 }
             }
@@ -546,16 +549,16 @@
                 "processData": false,
                 "data": jsonData
             }
-            $.ajax(settings).done(function (response) {
+            $.ajax(settings).done(function(response) {
                 //window.location.href = "getRecipes.html";
             });
         });
     });
 
     $(function() {
-        $("#searchForm").on("submit",function(e){
+        $("#searchForm").on("submit", function(e) {
             var keyword = document.getElementById("searchKeyword").value;
-            console.log("keyword: " + keyword );
+            console.log("keyword: " + keyword);
             var keywordLink = "search.html?keyword=" + keyword;
             window.location.href = keywordLink;
             e.preventDefault();
@@ -563,4 +566,5 @@
     });
 </script>
 </body>
+
 </html>
