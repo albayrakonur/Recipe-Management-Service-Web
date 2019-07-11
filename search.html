@@ -543,7 +543,11 @@
             for(var i = 0; i < data.length; i++) {
                 var idParams = "recipe.html?id=" + data[i].id;
                 //console.log("params: " + idParams);
-                items += " <div class=\"col-lg-3 col-md-4 col-6\"> <img class=\"card-img-top\" src=\"assets/images/burger.jpg\" alt=\"Card image cap\"><div class=\"card-body\" style=\"text-align:center\"> <h5 class=\"card-title\">" + data[i].name + "</h5> <p class=\"card-text\" >" + data[i].details + "</p> <a href=\"" + idParams + "\" class=\"btn btn-primary\">Tarif Detayına Git</a> </div> </div> ";
+                var recipePhotoLink;
+                for(var j = 0; j < data[i]["photos"].length; j++) {
+                    recipePhotoLink = data[i]["photos"][0].photoLink;
+                }
+                items += " <div class=\"col-lg-3 col-md-4 col-6\"> <img class=\"card-img-top\" src=\"" + recipePhotoLink + "\" alt=\"Card image cap\"><div class=\"card-body\" style=\"text-align:center\"> <h5 class=\"card-title\">" + data[i].name + "</h5> <p class=\"card-text\" >" + data[i].details + "</p> <a href=\"" + idParams + "\" class=\"btn btn-primary\">Tarif Detayına Git</a> </div> </div> ";
             }
             list.innerHTML = items;
         });
