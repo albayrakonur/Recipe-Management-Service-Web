@@ -542,13 +542,17 @@
             var count = 1;
             for(i = data.length-1; i >= 0; i--) {
                 var urlParam = "recipe.html?id=" + data[i].id;
+                var recipePhotoLink;
+                for(var j = 0; j < data[i]["photos"].length; j++) {
+                    recipePhotoLink = data[i]["photos"][0].photoLink;
+                }
                 if(i == data.length-1) {
                     itemListHtml += "<li data-target=\"#carouselExampleIndicators\" data-slide-to=\"0\" class=\"active\"></li>";
-                    itemBodyHtml += "<div class=\"carousel-item active\">" + "<a href=" + urlParam + "> <img class=\"d-block w-100\" src=\"assets/images/makarna.jpg\" alt=\"First slide\" style=\"max-width: 100%; height: 500px; margin: auto;\"> </a>" + "<div class=\"carousel-caption d-none d-md-block\">" + "<h5>" + data[i].name + "</h5>" + "<p>" + data[i].details + "</p>" + "</div></div>";
+                    itemBodyHtml += "<div class=\"carousel-item active\">" + "<a href=" + urlParam + "> <img class=\"d-block w-100\" src=\"" + recipePhotoLink + "\" alt=\"First slide\" style=\"max-width: 100%; height: 500px; margin: auto;\"> </a>" + "<div class=\"carousel-caption d-none d-md-block\">" + "<h5>" + data[i].name + "</h5>" + "<p>" + data[i].details + "</p>" + "</div></div>";
                 }else {
                     itemListHtml += "<li data-target=\"#carouselExampleIndicators\" data-slide-to=\"" + count + "\"></li>";
 
-                    itemBodyHtml += "<div class=\"carousel-item\">" + "<a href=" + urlParam + "> <img class=\"d-block w-100\" src=\"assets/images/makarna.jpg\" alt=\"First slide\" style=\"max-width: 100%; height: 500px; margin: auto;\"> </a>" + "<div class=\"carousel-caption d-none d-md-block\">" + "<h5>" + data[i].name + "</h5>" + "<p>" + data[i].details + "</p>" + "</div></div>";
+                    itemBodyHtml += "<div class=\"carousel-item\">" + "<a href=" + urlParam + "> <img class=\"d-block w-100\" src=\"" + recipePhotoLink + "\" alt=\"First slide\" style=\"max-width: 100%; height: 500px; margin: auto;\"> </a>" + "<div class=\"carousel-caption d-none d-md-block\">" + "<h5>" + data[i].name + "</h5>" + "<p>" + data[i].details + "</p>" + "</div></div>";
                     count += 1;
                 }
             }
