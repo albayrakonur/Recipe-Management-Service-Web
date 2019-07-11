@@ -21,7 +21,7 @@
     * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
     -->
     <link href="./main.css" rel="stylesheet">
-</head>
+    <link rel="stylesheet" type="text/css" href="css/jquery.tagsinput.css" /></head>
 
 <body>
 <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
@@ -453,10 +453,9 @@
                                     </div>
                                 </div>
                                 <div class="position-relative row form-group">
-                                    <label for="recipeTags" class="col-sm-2 col-form-label">Tarif Etiketleri</label>
+                                    <label for="tags_1" class="col-sm-2 col-form-label">Tarif Etiketleri</label>
                                     <div class="col-sm-10">
-                                        <input id="recipeTags" placeholder="Enter Recipe Tags" type="text" class="form-control" required>
-                                    </div>
+                                        <input id="tags_1" type="text" class="tags" /></p>                                    </div>
                                 </div>
                                 <div class="position-relative row form-group">
                                     <label for="recipePhotos" class="col-sm-2 col-form-label">File</label>
@@ -518,6 +517,7 @@
 </div>
 <script type="text/javascript" src="./assets/scripts/main.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="js/jquery.tagsinput.js"></script>
 <script type="text/javascript">
     $(function() {
         $("#addRecipeForm").on("submit", function(e) {
@@ -527,10 +527,13 @@
             data.append("name", recipeName  );
             var recipeDetail = document.getElementById("recipeDetails").value;
             data.append("details", recipeDetail);
-            var recipeTag = document.getElementById("recipeTags").value;
+            var recipeTag = document.getElementById("tags_1").value;
             data.append("tags", recipeTag);
             var recipePhotos2 = document.getElementById("recipePhotos");
-            data.append("file", recipePhotos2.files[0]);
+            for (var i = 0; i < recipePhotos2.files.length; i ++) {
+                data.append("file", recipePhotos2.files.item(i));
+                console.log(recipePhotos2.files.item(i));
+            }
             var settings = {
                 "async": true,
                 "crossDomain": true,
@@ -544,7 +547,6 @@
                 "mimeType": "multipart/form-data",
                 "data": data
             }
-
             $.ajax(settings).done(function (response) {
                 window.location.href = "recipe.html?id=" + response;
             });
@@ -561,6 +563,52 @@
         });
     });
 </script>
+
+<script type="text/javascript">
+
+    function onAddTag(tag) {
+        alert("Added a tag: " + tag);
+    }
+    function onRemoveTag(tag) {
+        alert("Removed a tag: " + tag);
+    }
+
+    function onChangeTag(input,tag) {
+        alert("Changed a tag: " + tag);
+    }
+
+    $(function() {
+
+        $('#tags_1').tagsInput({width:'auto'});
+        $('#tags_2').tagsInput({
+            width: 'auto',
+            onChange: function(elem, elem_tags)
+            {
+                var languages = ['php','ruby','javascript'];
+                $('.tag', elem_tags).each(function()
+                {
+                    if($(this).text().search(new RegExp('\\b(' + languages.join('|') + ')\\b')) >= 0)
+                        $(this).css('background-color', 'yellow');
+                });
+            }
+        });
+        $('#tags_3').tagsInput({
+            width: 'auto',
+
+            //autocomplete_url:'test/fake_plaintext_endpoint.html' //jquery.autocomplete (not jquery ui)
+            autocomplete_url:'test/fake_json_endpoint.html' // jquery ui autocomplete requires a json endpoint
+        });
+
+
+// Uncomment this line to see the callback functions in action
+//			$('input.tags').tagsInput({onAddTag:onAddTag,onRemoveTag:onRemoveTag,onChange: onChangeTag});
+
+// Uncomment this line to see an input with no interface for adding new tags.
+//			$('input.tags').tagsInput({interactive:false});
+    });
+
+</script>
+
 </body>
 
 </html>
