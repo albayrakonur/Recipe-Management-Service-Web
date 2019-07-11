@@ -459,9 +459,9 @@
                                     </div>
                                 </div>
                                 <div class="position-relative row form-group">
-                                    <label for="exampleFile" class="col-sm-2 col-form-label">File</label>
+                                    <label for="recipePhotos" class="col-sm-2 col-form-label">File</label>
                                     <div class="col-sm-10">
-                                        <input name="file" id="exampleFile" type="file" class="form-control-file" multiple required>
+                                        <input type="file" name="file" id="recipePhotos" type="file" class="form-control-file" accept="image/png, image/jpeg" multiple required>
                                         <small class="form-text text-muted">Tarife Resim Ekle</small>
                                     </div>
                                 </div>
@@ -521,36 +521,32 @@
 <script type="text/javascript">
     $(function() {
         $("#addRecipeForm").on("submit", function(e) {
-            var jsonData;
-            var name = document.getElementById("recipeName").value;
-            var details = document.getElementById("recipeDetails").value;
-            var tags = (document.getElementById("recipeTags").value).split(',');
-            jsonData = "{" + "\"name\":" + "\"" + name + "\"" + "," + "\"details\":" + "\"" + details + "\"" + "," + "\"photos\": []" + "," + "\"tags\":[";
-            //+ "}";
-            var i;
-            for (i = 0; i < tags.length; i++) {
-                if (i + 1 != tags.length) {
-                    jsonData += "\"" + tags[i] + "\",";
-                } else {
-                    jsonData += "\"" + tags[i] + "\"]" + "}";
-                }
-            }
             e.preventDefault();
-            console.log((jsonData))
-            //alert("{\"name\":\"" + name + "\",\"details\":\"" + details + "\",\"photos\":[]" + "}");
+            var data = new FormData();
+            var recipeName = document.getElementById("recipeName").value;
+            data.append("name", recipeName  );
+            var recipeDetail = document.getElementById("recipeDetails").value;
+            data.append("details", recipeDetail);
+            var recipeTag = document.getElementById("recipeTags").value;
+            data.append("tags", recipeTag);
+            var recipePhotos2 = document.getElementById("recipePhotos");
+            data.append("file", recipePhotos2.files[0]);
             var settings = {
                 "async": true,
                 "crossDomain": true,
                 "url": "https://recipe-management-service.herokuapp.com/addRecipe",
                 "method": "POST",
                 "headers": {
-                    "content-type": "application/json"
+                    "authorization": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJvbnVyYWxiYXlyYWsiLCJleHAiOjE1NjMyNzI2MjN9.PJreEOgawLnT4_WDep5JIozC4esRtkNUUrgCUWGKzDosq0NxgB38X_QjKN6jy3uG9kK4VDBovcb49yWxwhc5Ag"
                 },
                 "processData": false,
-                "data": jsonData
+                "contentType": false,
+                "mimeType": "multipart/form-data",
+                "data": data
             }
-            $.ajax(settings).done(function(response) {
-                //window.location.href = "getRecipes.html";
+
+            $.ajax(settings).done(function (response) {
+                window.location.href = "recipe.html?id=" + response;
             });
         });
     });
