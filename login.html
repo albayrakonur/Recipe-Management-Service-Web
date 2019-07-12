@@ -530,7 +530,6 @@
                 </div>
             </div>
         </div>
-        <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
     </div>
 </div>
 <script type="text/javascript" src="./assets/scripts/main.js"></script>
@@ -553,17 +552,22 @@
                 crossDomain: true,
                 url: "https://recipe-management-service.herokuapp.com/login",
                 type: "POST",
-                headers : {
-                    "accept": "application/json",
+                headers: {
+                    "content-type": "application/json"
+                },
+                xhrFields: {
+                    withCredentials: true
                 },
                 processData: false,
                 data: jsonData,
-                success: function(data, textStatus, request){
-                    alert(request.getAllResponseHeaders("Authorization"));
-                },
-                error: function (request, textStatus, errorThrown) {
-                    alert("errrorr");
-                }
+                success: function(data, textStatus, response){
+                    document.cookie = "jwt=" + response.getResponseHeader("Authorization");
+                    document.cookie = "username=" + username;
+                    window.location.href = "user.html";
+                }.bind(this),
+                error: function (xhr, status, err) {
+                    console.log("error");
+                }.bind(this)
             });
         });
     });

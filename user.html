@@ -23,25 +23,6 @@
     <link href="./main.css" rel="stylesheet">
 </head>
 
-<style>
-    .carousel-control-next-icon, .carousel-control-prev-icon {
-        background: none !important;
-    }
-
-    .carousel-control-next-icon > i, .carousel-control-prev-icon > i {
-        font-size: 50px;
-        color: white;
-        background-color: gray;
-        padding: 5px;
-        border-radius: 5px;
-    }
-    .carousel-caption > p {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-</style>
-
 <body>
 <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
     <div class="app-header header-shadow">
@@ -87,24 +68,10 @@
                     <div class="widget-content p-0">
                         <div class="widget-content-wrapper">
                             <div class="widget-content-left">
-                                <div class="btn-group">
-                                    <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn">
-                                        <img class="rounded-circle" src="assets/images/avatars/noimage.jpg" alt="" width="42">
-                                        <i class="fa fa-angle-down ml-2 opacity-8"></i>
-                                    </a>
-                                    <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
-                                        <button type="button" tabindex="0" class="dropdown-item">Hesap Ayarları</button>
-                                        <button type="button" tabindex="0" class="dropdown-item">Çıkış</button>
-                                    </div>
-                                </div>
+                                <a class="nav-link" href="login.html">Login</a>
                             </div>
-                            <div class="widget-content-left  ml-3 header-user-info">
-                                <div class="widget-heading">
-                                    Atakan Filgoz
-                                </div>
-                                <div class="widget-subheading">
-                                    Toplantı Başkanı ve Yazmanı
-                                </div>
+                            <div class="widget-content-left">
+                                <a class="nav-link" href="signup.html">Sign-Up</a>
                             </div>
                         </div>
                     </div>
@@ -428,7 +395,7 @@
                     <ul class="vertical-nav-menu">
                         <li class="app-sidebar__heading">BENİMSİN - BİL 495</li>
                         <li>
-                            <a href="index.html" class="mm-active">
+                            <a href="index.html">
                                 <i class="metismenu-icon pe-7s-rocket"></i> Anasayfa
                             </a>
                         </li>
@@ -466,7 +433,25 @@
                     </div>
                 </div>
                 <div class="container">
-
+                    <div class="main-card mb-3 card" style="border-radius: 20px; box-shadow: 5px 5px 5px #e1e1e1;">
+                        <div class="card-body"><h5 class="card-title">Hesap Ayarları</h5>
+                            <div class="panel-body">
+                                <form id="userSettingsForm">
+                                    <div class="form-group mb-lg">
+                                        <label>N DAYS</label>
+                                        <div class="input-group input-group-icon">
+                                            <input id="nDaysInput" type="text" class="form-control input-lg" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-4 text-right">
+                                            <button type="submit" class="btn btn-primary btn-block btn-lg visible-xs mt-lg">Kaydet</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="app-wrapper-footer">
@@ -507,59 +492,69 @@
                 </div>
             </div>
         </div>
-        <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
     </div>
 </div>
 <script type="text/javascript" src="./assets/scripts/main.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
 
-    $( document ).ready(function() {
-        //alert("Ready!");
-        var settings = {
-            "async": true,
-            "crossDomain": true,
-            "url": "https://recipe-management-service.herokuapp.com/getRecipes",
-            "method": "GET",
-            "headers": {}
-        }
-        $.ajax(settings).done(function (data) {
-            console.log(data);
-            var itemList = document.getElementById("listElement");
-            var itemListHtml = "";
-            var itemBody = document.getElementById("itemBody");
-            var itemBodyHtml = "";
-            var i;
-            var count = 1;
-            for(i = data.length-1; i >= 0; i--) {
-                var urlParam = "recipe.html?id=" + data[i].id;
-                if(i == data.length-1) {
-                    itemListHtml += "<li data-target=\"#carouselExampleIndicators\" data-slide-to=\"0\" class=\"active\"></li>";
-                    itemBodyHtml += "<div class=\"carousel-item active\">" + "<a href=" + urlParam + "> <img class=\"d-block w-100\" src=\"assets/images/makarna.jpg\" alt=\"First slide\" style=\"max-width: 100%; height: 500px; margin: auto;\"> </a>" + "<div class=\"carousel-caption d-none d-md-block\">" + "<h5>" + data[i].name + "</h5>" + "<p>" + data[i].details + "</p>" + "</div></div>";
-                }else {
-                    itemListHtml += "<li data-target=\"#carouselExampleIndicators\" data-slide-to=\"" + count + "\"></li>";
 
-                    itemBodyHtml += "<div class=\"carousel-item\">" + "<a href=" + urlParam + "> <img class=\"d-block w-100\" src=\"assets/images/makarna.jpg\" alt=\"First slide\" style=\"max-width: 100%; height: 500px; margin: auto;\"> </a>" + "<div class=\"carousel-caption d-none d-md-block\">" + "<h5>" + data[i].name + "</h5>" + "<p>" + data[i].details + "</p>" + "</div></div>";
-                    count += 1;
+
+    $(document).ready(function() {
+        var cookies = document.cookie.split(";");
+        var username;
+        for (var i = 0; i < cookies.length; i++) {
+            if (cookies[i].includes("username")) {
+                var usernameCookie = cookies[i].split("=");
+                username = usernameCookie[1];
+            }
+        }
+        console.log(username);
+    });
+
+    $(function() {
+        $("#userSettingsForm").on("submit", function(e) {
+            e.preventDefault();
+            var cookies = document.cookie.split(";");
+            var token;
+            for (var i = 0; i < cookies.length; i++) {
+                if (cookies[i].includes("jwt")) {
+                    var usernameCookie = cookies[i].split("=");
+                    token = usernameCookie[1];
                 }
             }
-            //alert(itemBodyHtml);
-            itemList.innerHTML = itemListHtml;
-            itemBody.innerHTML = itemBodyHtml;
+            console.log(token);
+            ndays = document.getElementById("nDaysInput").value;
+            var jsonData = "{"
+                + "\"nDays\":" + "\"" + ndays + "\""
+                + "}" ;
+            var settings = {
+                "async": true,
+                "crossDomain": true,
+                "url": "https://recipe-management-service.herokuapp.com/updateUser",
+                "method": "PUT",
+                "headers": {
+                    "content-type": "application/json",
+                    "Authorization": token ,
+                },
+                "processData": false,
+                "data": jsonData
+            }
+            $.ajax(settings).done(function (response) {
+                //console.log(response);
+            });
         });
     });
 
     $(function() {
-        $("#searchForm").on("submit",function(e){
+        $("#searchForm").on("submit", function(e) {
             var keyword = document.getElementById("searchKeyword").value;
-            console.log("keyword: " + keyword );
+            console.log("keyword: " + keyword);
             var keywordLink = "search.html?keyword=" + keyword;
             window.location.href = keywordLink;
             e.preventDefault();
         });
     });
-
-
 </script>
 </body>
 
