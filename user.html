@@ -439,7 +439,7 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-sm-4 text-right">
+                                        <div class="col-sm-4 text-right" id="nDaysSaveButton">
                                             <button type="submit" class="btn btn-primary btn-block btn-lg visible-xs mt-lg">Kaydet</button>
                                         </div>
                                     </div>
@@ -556,6 +556,11 @@
     $(function() {
         $("#userSettingsForm").on("submit", function(e) {
             e.preventDefault();
+            var button = document.getElementById("nDaysSaveButton");
+            button.innerHTML = "<button class=\"btn btn-primary btn-block btn-lg visible-xs mt-lg\" type=\"button\" disabled>\n" +
+                "  <span class=\"spinner-border spinner-border-sm\" role=\"status\" aria-hidden=\"true\"></span>\n" +
+                "  Güncelleniyor...\n" +
+                "</button>";
             var cookies = document.cookie.split(";");
             var token;
             for (var i = 0; i < cookies.length; i++) {
@@ -569,20 +574,27 @@
             var jsonData = "{"
                 + "\"nDays\":" + "\"" + ndays + "\""
                 + "}" ;
-            var settings = {
-                "async": true,
-                "crossDomain": true,
-                "url": "https://recipe-management-service.herokuapp.com/updateUser",
-                "method": "PUT",
-                "headers": {
+            $.ajax({
+                async: true,
+                crossDomain: true,
+                url: "https://recipe-management-service.herokuapp.com/updateUser",
+                type: "PUT",
+                headers: {
                     "content-type": "application/json",
-                    "Authorization": token ,
+                    "Authorization": token
                 },
-                "processData": false,
-                "data": jsonData
-            }
-            $.ajax(settings).done(function (response) {
-                //console.log(response);
+                processData: false,
+                data: jsonData,
+                success: function(data, textStatus, response){
+                    alert("Güncellendi");
+                    var button = document.getElementById("nDaysSaveButton");
+                    button.innerHTML = "<button type=\"submit\" class=\"btn btn-primary btn-block btn-lg visible-xs mt-lg\">Kaydet</button>";
+                }.bind(this),
+                error: function (xhr, status, err) {
+                    var button = document.getElementById("nDaysSaveButton");
+                    button.innerHTML = "<button type=\"submit\" class=\"btn btn-primary btn-block btn-lg visible-xs mt-lg\">Kaydet</button>";
+                    alert("Hata oluştu");
+                }.bind(this)
             });
         });
     });

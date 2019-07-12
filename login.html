@@ -478,7 +478,7 @@
                                                 <label for="RememberMe">Remember Me</label>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4 text-right">
+                                        <div class="col-sm-4 text-right" id="loginButton">
                                             <br/>
                                             <button type="submit" class="btn btn-primary btn-block btn-lg visible-xs mt-lg">Sign In</button>
                                         </div>
@@ -538,6 +538,11 @@
 
     $(function() {
         $("#userLoginForm").on("submit",function(e){
+            var button = document.getElementById("loginButton");
+            button.innerHTML = "<br/><button class=\"btn btn-primary btn-block btn-lg visible-xs mt-lg\" type=\"button\" disabled>\n" +
+                "  <span class=\"spinner-border spinner-border-sm\" role=\"status\" aria-hidden=\"true\"></span>\n" +
+                "  Signing In...\n" +
+                "</button>";
             var jsonData;
             var username = document.getElementById("user_username").value;
             var password = document.getElementById("user_password").value;
@@ -567,7 +572,9 @@
                     window.location.href = "user.html";
                 }.bind(this),
                 error: function (xhr, status, err) {
-                    console.log("error");
+                    var button = document.getElementById("loginButton");
+                    button.innerHTML = "<br/>\n"
+                        + "<button type=\"submit\" class=\"btn btn-primary btn-block btn-lg visible-xs mt-lg\">Sign In</button>";
                 }.bind(this)
             });
         });

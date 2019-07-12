@@ -659,6 +659,11 @@
     });
 
     function deleteRecipe() {
+        var button = document.getElementById("recipeDeleteButton");
+        button.innerHTML = "<button type=\"button\" class=\"btn btn-lg btn-secondary btn-block\" data-dismiss=\"modal\">Hayır</button>" + "<button class=\"btn btn-lg btn-primary btn-block\" type=\"button\" disabled>\n"
+            + "<span class=\"spinner-border spinner-border-sm\" role=\"status\" aria-hidden=\"true\"></span>\n"
+            + "Siliniyor...\n"
+            + "</button>";
         var cookies = document.cookie.split(";");
         var token;
         for (var i = 0; i < cookies.length; i++) {
@@ -671,25 +676,35 @@
         var url_string = window.location.href;
         var url = new URL(url_string);
         var idParam = url.searchParams.get("id");
-        var settings = {
-            "async": true,
-            "crossDomain": true,
-            "url": "https://recipe-management-service.herokuapp.com/deleteRecipe/" + idParam,
-            "method": "DELETE",
-            "headers": {
+        $.ajax({
+            async: true,
+            crossDomain: true,
+            url: "https://recipe-management-service.herokuapp.com/deleteRecipe/" + idParam,
+            type: "DELETE",
+            headers: {
                 "content-type": "application/json",
                 "Authorization": token
             },
-            "processData": false,
-            "data": ""
-        }
-
-        $.ajax(settings).done(function(response) {
-            window.location.href = "getRecipes.html";
+            processData: false,
+            data: "",
+            success: function(data, textStatus, response){
+                window.location.href = "getRecipes.html";
+            },
+            error: function (xhr, status, err) {
+                var button = document.getElementById("recipeDeleteButton");
+                button.innerHTML = "<button type=\"button\" class=\"btn btn-lg btn-secondary btn-block\" data-dismiss=\"modal\">Hayır</button>\n"
+                    + "<input class=\"btn btn-lg btn-primary btn-block\" id=\"buttonDelete\" type=\"submit\" name=\"submit\" value=\"Evet\" onclick=\"deleteRecipe()\">";
+            }
         });
     }
 
     function updateRecipe(id) {
+        var button = document.getElementById("recipeUpdateButton");
+        button.innerHTML = "<button type=\"button\" class=\"btn btn-lg btn-secondary btn-block\" data-dismiss=\"modal\">Close</button>" +
+            "<button class=\"btn btn-lg btn-primary btn-block\" type=\"button\" disabled>\n" +
+            "  <span class=\"spinner-border spinner-border-sm\" role=\"status\" aria-hidden=\"true\"></span>\n" +
+            "  Guncelleniyor...\n" +
+            "</button>";
         var cookies = document.cookie.split(";");
         var token;
         for (var i = 0; i < cookies.length; i++) {
@@ -737,19 +752,33 @@
                     jsonData += "\"" + tags[i] + "\"]" + "}";
                 }
             }
-            var settings = {
-                "async": true,
-                "crossDomain": true,
-                "url": "https://recipe-management-service.herokuapp.com/updateRecipe/" + idParam,
-                "method": "PUT",
-                "headers": {
-                    "content-type": "application/json"
-                },
-                "processData": false,
-                "data": jsonData
+            var cookies = document.cookie.split(";");
+            var token;
+            for (var i = 0; i < cookies.length; i++) {
+                if (cookies[i].includes("jwt")) {
+                    var tokenCookie = cookies[i].split("=");
+                    token = tokenCookie[1];
+                }
             }
-            $.ajax(settings).done(function(response) {
-                window.location.reload(true);
+            $.ajax({
+                async: true,
+                crossDomain: true,
+                url: "https://recipe-management-service.herokuapp.com/updateRecipe/" + idParam,
+                type: "PUT",
+                headers: {
+                    "content-type": "application/json",
+                    "Authorization": token
+                },
+                processData: false,
+                data: jsonData,
+                success: function(data, textStatus, response){
+                    window.location.reload();
+                },
+                error: function (xhr, status, err) {
+                    var button = document.getElementById("recipeUpdateButton");
+                    button.innerHTML = "<button type=\"button\" class=\"btn btn-lg btn-secondary btn-block\" data-dismiss=\"modal\">Close</button>\n"
+                        + "<input class=\"btn btn-lg btn-primary btn-block\" id=\"buttonUpdate\" type=\"submit\" name=\"submit\" value=\"Tarifi Güncelle\" onclick=\"updateRecipe()\">";
+                }
             });
         });
     }
@@ -788,7 +817,7 @@
             <div class="modal-body">
                 <p align="center">Tarif Silinsin mi ?</p>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer" id="recipeDeleteButton">
                 <button type="button" class="btn btn-lg btn-secondary btn-block" data-dismiss="modal">Hayır</button>
                 <input class="btn btn-lg btn-primary btn-block" id="buttonDelete" type="submit" name="submit" value="Evet" onclick="deleteRecipe()">
             </div>
@@ -821,7 +850,7 @@
                     </div>
                 </form>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer" id="recipeUpdateButton">
                 <button type="button" class="btn btn-lg btn-secondary btn-block" data-dismiss="modal">Close</button>
                 <input class="btn btn-lg btn-primary btn-block" id="buttonUpdate" type="submit" name="submit" value="Tarifi Güncelle" onclick="updateRecipe()">
             </div>
