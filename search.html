@@ -102,7 +102,7 @@
             <div class="app-header-right">
                 <div class="header-btn-lg pr-0">
                     <div class="widget-content p-0">
-                        <div class="widget-content-wrapper">
+                        <div id="loginBar" class="widget-content-wrapper">
                             <div class="widget-content-left">
                                 <a class="nav-link" href="login.html">Login</a>
                             </div>
@@ -523,6 +523,54 @@
 <script type="text/javascript" src="./assets/scripts/main.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
+
+    $(document).ready(function () {
+        //loginBar
+        var cookies = document.cookie.split(";");
+        var username;
+        for (var i = 0; i < cookies.length; i++) {
+            if (cookies[i].includes("username")) {
+                var usernameCookie = cookies[i].split("=");
+                username = usernameCookie[1];
+            }
+        }
+        login_bar = document.getElementById("loginBar");
+        if( !(document.cookie.includes("jwt") && document.cookie.includes("username")) ) {
+            login_bar.innerHTML = "<div class=\"widget-content-left\">"
+                + "<a class=\"nav-link\" href=\"login.html\">Login</a>"
+                + "</div>"
+                + "<div class=\"widget-content-left\">"
+                + "<a class=\"nav-link\" href=\"signup.html\">Sign-Up</a>"
+                + "</div>";
+        }else {
+            login_bar.innerHTML = "<div class=\"header-btn-lg pr-0\">\n" +
+                "<div class=\"widget-content p-0\">\n" +
+                "<div class=\"widget-content-wrapper\">\n" +
+                "<div class=\"widget-content-left\">\n" +
+                "<div class=\"btn-group\">\n" +
+                "<a data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\" class=\"p-0 btn\">\n" +
+                "<img width=\"42\" class=\"rounded-circle\" src=\"assets/images/avatars/noimage.jpg\" alt=\"\">\n" +
+                "<i class=\"fa fa-angle-down ml-2 opacity-8\"></i>\n" +
+                "</a>\n" +
+                "<div tabindex=\"-1\" role=\"menu\" aria-hidden=\"true\" class=\"dropdown-menu dropdown-menu-right\">\n" +
+                "<a type=\"button\" tabindex=\"0\" href=\"user.html\" class=\"dropdown-item\">User Account</a>\n" +
+                "</div>\n" +
+                "</div>\n" +
+                "</div>\n" +
+                "<div class=\"widget-content-left  ml-3 header-user-info\">\n" +
+                "<div class=\"widget-heading\">\n" +
+                username +
+                "</div>\n" +
+                "<div class=\"widget-subheading\">\n" +
+                "Benimsin Group Member\n" +
+                "</div>\n" +
+                "</div>\n" +
+                "</div>\n" +
+                "</div>\n" +
+                "</div>"
+        }
+    });
+
 
     $( document ).ready(function() {
         var url_string = window.location.href;
