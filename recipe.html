@@ -457,8 +457,9 @@
                                 <div class="col-md-4">
                                     <div id="recipeHeaderText">
                                     </div>
-                                    <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#exampleModal">Tarifi Sil</button>
-                                    <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#exampleModalCenter" style="margin-top: .5rem">Tarifi Güncelle</button>
+                                    <div id="recipeOperationsBar">
+
+                                    </div>
                                     <div class="sharethis-inline-share-buttons" style="margin-top: 20px"></div>
                                 </div>
                             </div>
@@ -617,14 +618,27 @@
             "data": ""
         }
         $.ajax(settings).done(function(data) {
-            //console.log(data);
+            var operations = document.getElementById("recipeOperationsBar");
+            var cookies = document.cookie.split(";");
+            var username;
+            for (var i = 0; i < cookies.length; i++) {
+                if (cookies[i].includes("username")) {
+                    var usernameCookie = cookies[i].split("=");
+                    username = usernameCookie[1];
+                }
+            }
+            console.log("cookie: " + username + " photoUser: " + data.userName);
+            if(data.userName.localeCompare(username) == 0) {
+                operations.innerHTML =
+                    "<button type=\"button\" class=\"btn btn-primary btn-lg btn-block\" data-toggle=\"modal\" data-target=\"#exampleModal\">Tarifi Sil</button>\n"
+                    +"<button type=\"button\" class=\"btn btn-primary btn-lg btn-block\" data-toggle=\"modal\" data-target=\"#exampleModalCenter\" style=\"margin-top: .5rem\">Tarifi Güncelle</button>"
+            }
             var header = document.getElementById("recipeHeaderText");
             recipeHeaderText.innerHTML = "<h3 class=\"my-4\">" + data.name + "</h3>";
             var detail = document.getElementById("detailSection");
             detailSection.innerHTML = "<p>" + data.details + "</p>";
             var tagsHTML = "";
             for (var i = 0; i < data.tags.length; i++) {
-                console.log(data.tags[i]);
                 tagsHTML += "<a href=\"search.html?keyword=" + data.tags[i] + "\">" + data.tags[i] + "</a>";
                 if(i != data.tags.length-1) {
                     tagsHTML += ", ";
@@ -634,7 +648,6 @@
             var slider = document.getElementById("recipePhoto");
             var sliderHTML;
             for(var i = 0; i < data.photos.length; i++) {
-                console.log(data.photos[i].photoLink);
                 if (i == 0) {
                     sliderHTML += "<div class=\"carousel-item active\"><img class=\"d-block w-100\" src=\"" + data.photos[i].photoLink + "\" alt=\"First slide\"></div>";
                 }else {
@@ -646,6 +659,15 @@
     });
 
     function deleteRecipe() {
+        var cookies = document.cookie.split(";");
+        var token;
+        for (var i = 0; i < cookies.length; i++) {
+            if (cookies[i].includes("jwt")) {
+                var tokenCookie = cookies[i].split("=");
+                token = tokenCookie[1];
+            }
+        }
+        console.log("token: " + token);
         var url_string = window.location.href;
         var url = new URL(url_string);
         var idParam = url.searchParams.get("id");
@@ -655,7 +677,8 @@
             "url": "https://recipe-management-service.herokuapp.com/deleteRecipe/" + idParam,
             "method": "DELETE",
             "headers": {
-                "content-type": "application/json"
+                "content-type": "application/json",
+                "Authorization": token
             },
             "processData": false,
             "data": ""
@@ -667,6 +690,14 @@
     }
 
     function updateRecipe(id) {
+        var cookies = document.cookie.split(";");
+        var token;
+        for (var i = 0; i < cookies.length; i++) {
+            if (cookies[i].includes("jwt")) {
+                var tokenCookie = cookies[i].split("=");
+                token = tokenCookie[1];
+            }
+        }
         var url_string = window.location.href;
         var url = new URL(url_string);
         var idParam = url.searchParams.get("id");
@@ -676,7 +707,8 @@
             "url": "https://recipe-management-service.herokuapp.com/getRecipe/" + idParam,
             "method": "GET",
             "headers": {
-                "content-type": "application/json"
+                "content-type": "application/json",
+                "Authorization": token
             },
             "processData": false,
             "data": ""
@@ -725,7 +757,6 @@
     $(function() {
         $("#searchForm").on("submit",function(e){
             var keyword = document.getElementById("searchKeyword").value;
-            console.log("keyword: " + keyword );
             var keywordLink = "search.html?keyword=" + keyword;
             window.location.href = keywordLink;
             e.preventDefault();
