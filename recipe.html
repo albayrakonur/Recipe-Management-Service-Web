@@ -22,6 +22,7 @@
     -->
     <link href="./main.css" rel="stylesheet">
     <script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5cfee3544351e90012650100&product=inline-share-buttons' async='async'></script>
+    <link rel="stylesheet" type="text/css" href="css/jquery.tagsinput.css" />
 </head>
 
 <body>
@@ -431,13 +432,13 @@
                 <div class="container">
                     <div class="main-card mb-3 card" style="border-radius: 50px;  box-shadow: 5px 5px 5px #e1e1e1;">
                         <div class="card-body"><h5 class="card-title"></h5>
-                    <!-- Page Content -->
+                            <!-- Page Content -->
                             <!-- Portfolio Item Row -->
                             <div class="row">
                                 <div class="col-md-8">
                                     <div class="main-card mb-3 card">
                                         <div class="card-body">
-                                        <!--    <h5 class="card-title">Basic Bootstrap 4 Carousel</h5> -->
+                                            <!--    <h5 class="card-title">Basic Bootstrap 4 Carousel</h5> -->
                                             <div id="carouselExampleControls1" class="carousel slide" data-ride="carousel">
                                                 <div class="carousel-inner" id="recipePhoto">
 
@@ -530,8 +531,77 @@
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Sil</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p align="center">Tarif Silinsin mi ?</p>
+            </div>
+            <div class="modal-footer" id="recipeDeleteButton">
+                <button type="button" class="btn btn-lg btn-secondary btn-block" data-dismiss="modal">Hayır</button>
+                <input class="btn btn-lg btn-primary btn-block" id="buttonDelete" type="submit" name="submit" value="Evet" onclick="deleteRecipe()">
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Güncelle</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="" id="updateRecipeForm">
+                    <div class="position-relative row form-group">
+                        <label for="recipeName" class="col-sm-2 col-form-label">Tarif Adı</label>
+                        <div class="col-sm-10">
+                            <input id="recipeName" placeholder="Enter Recipe Name" type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="position-relative row form-group">
+                        <label for="recipeDetails" class="col-sm-2 col-form-label">Tarif Detayı</label>
+                        <div class="col-sm-10">
+                            <textarea id="recipeDetails" class="form-control" placeholder="Enter Recipe Details"></textarea>
+                        </div>
+                    </div>
+                    <div class="position-relative row form-group">
+                        <label for="tags_1" class="col-sm-2 col-form-label">Tarif Etiketleri</label>
+                        <div class="col-sm-10" style="border-radius: .25em">
+                            <input id="tags_1" type="text" class="tags" />
+                        </div>
+                    </div>
+                    <div class="position-relative row form-group">
+                        <label for="recipePhotos" class="col-sm-2 col-form-label">File</label>
+                        <div class="col-sm-10">
+                            <input type="file" name="file" id="recipePhotos" type="file" class="form-control-file" accept="image/png, image/jpeg" multiple>
+                            <small class="form-text text-muted">Tarife Resim Ekle</small>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer" id="recipeUpdateButton">
+                <button type="button" class="btn btn-lg btn-secondary btn-block" data-dismiss="modal">Close</button>
+                <input class="btn btn-lg btn-primary btn-block" id="buttonUpdate" type="submit" name="submit" value="Tarifi Güncelle" onclick="updateRecipe()">
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript" src="./assets/scripts/main.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="assets/scripts/jquery.tagsinput.js"></script>
 <script>
     (function($) {
 
@@ -552,6 +622,8 @@
     });
 </script>
 <script type="text/javascript">
+
+
 
     $(document).ready(function () {
         //loginBar
@@ -601,6 +673,92 @@
         }
     });
 
+    function updateRecipe() {
+        var button = document.getElementById("recipeUpdateButton");
+        button.innerHTML = "<button type=\"button\" class=\"btn btn-lg btn-secondary btn-block\" data-dismiss=\"modal\">Close</button>" +
+            "<button class=\"btn btn-lg btn-primary btn-block\" type=\"button\" disabled>\n" +
+            "  <span class=\"spinner-border spinner-border-sm\" role=\"status\" aria-hidden=\"true\"></span>\n" +
+            "  Guncelleniyor...\n" +
+            "</button>";
+        var cookies = document.cookie.split(";");
+        var token;
+        for (var i = 0; i < cookies.length; i++) {
+            if (cookies[i].includes("jwt")) {
+                var tokenCookie = cookies[i].split("=");
+                token = tokenCookie[1];
+            }
+        }
+        //console.log(token);
+
+        var url_string = window.location.href;
+        var url = new URL(url_string);
+        var idParam = url.searchParams.get("id");
+
+        $.ajax({
+            async: true,
+            crossDomain: true,
+            url: "https://recipe-management-service.herokuapp.com/getRecipe/" + idParam,
+            type: "GET",
+            headers: {},
+            success: function (data,textStatus,response) {
+                //console.log(data);
+                var name = document.getElementById("recipeName").value;
+                var myDetails = document.getElementById("recipeDetails").value;
+                var tags = (document.getElementById("tags_1").value).split(',');
+                var updateData = new FormData();
+                if(name == "") {
+                    updateData.append("name",data.name);
+                }else {
+                    updateData.append("name", name);
+                }
+                if (myDetails.localeCompare("") != 1) {
+                    updateData.append("details", data.details);
+                }else {
+                    updateData.append("details", myDetails);
+                }
+                if (tags.length == 0) {
+                    updateData.append("tags", data.tags);
+                }else {
+                    updateData.append("tags", tags);
+                }
+                var recipePhotos2 = document.getElementById("recipePhotos");
+                for (var i = 0; i < recipePhotos2.files.length; i ++) {
+                    updateData.append("file", recipePhotos2.files.item(i));
+                }
+                for (var value of updateData.values()) {
+                    console.log(value);
+                }
+                console.log(idParam);
+                $.ajax({
+                    async: true,
+                    crossDomain: true,
+                    url: "https://recipe-management-service.herokuapp.com/updateRecipe/" + idParam,
+                    type: "PUT",
+                    headers: {
+                        "Authorization": token
+                    },
+                    processData: false,
+                    contentType: false,
+                    mimeType: "multipart/form-data",
+                    data: updateData,
+                    success: function (data2, textStatus2, response2) {
+                        window.location.reload();
+                    },
+                    error: function (xhr2, status2, err2) {
+                        var button = document.getElementById("recipeUpdateButton");
+                        button.innerHTML = "<button type=\"button\" class=\"btn btn-lg btn-secondary btn-block\" data-dismiss=\"modal\">Close</button>\n"
+                            + "<input class=\"btn btn-lg btn-primary btn-block\" id=\"buttonUpdate\" type=\"submit\" name=\"submit\" value=\"Tarifi Güncelle\" onclick=\"updateRecipe()\">";
+                        alert(xhr2.getAllResponseHeaders());
+                    }
+                })
+
+            },
+            error: function (xhr, status, err) {
+                console.log("error");
+            }
+
+        });
+    };
 
     $(document).ready(function() {
         var url_string = window.location.href;
@@ -698,91 +856,6 @@
         });
     }
 
-    function updateRecipe(id) {
-        var button = document.getElementById("recipeUpdateButton");
-        button.innerHTML = "<button type=\"button\" class=\"btn btn-lg btn-secondary btn-block\" data-dismiss=\"modal\">Close</button>" +
-            "<button class=\"btn btn-lg btn-primary btn-block\" type=\"button\" disabled>\n" +
-            "  <span class=\"spinner-border spinner-border-sm\" role=\"status\" aria-hidden=\"true\"></span>\n" +
-            "  Guncelleniyor...\n" +
-            "</button>";
-        var cookies = document.cookie.split(";");
-        var token;
-        for (var i = 0; i < cookies.length; i++) {
-            if (cookies[i].includes("jwt")) {
-                var tokenCookie = cookies[i].split("=");
-                token = tokenCookie[1];
-            }
-        }
-        var url_string = window.location.href;
-        var url = new URL(url_string);
-        var idParam = url.searchParams.get("id");
-        var settings = {
-            "async": true,
-            "crossDomain": true,
-            "url": "https://recipe-management-service.herokuapp.com/getRecipe/" + idParam,
-            "method": "GET",
-            "headers": {
-                "content-type": "application/json",
-                "Authorization": token
-            },
-            "processData": false,
-            "data": ""
-        }
-        $.ajax(settings).done(function(data) {
-            //console.log("id: " + idParam);
-            var name = document.getElementById("recipeName").value;
-            var details = document.getElementById("recipeDetails").value;
-            var tags = (document.getElementById("recipeTags").value).split(',');
-            if (name.localeCompare("") != 1) {
-                name = data.name;
-            }
-            if (details.localeCompare("") != 1) {
-                details = data.details;
-            }
-            if (tags.length == 0) {
-                tags = data.tags;
-            }
-            jsonData = "{" + "\"name\":" + "\"" + name + "\"" + "," + "\"details\":" + "\"" + details + "\"" + "," + "\"photos\": []" + "," + "\"tags\":[";
-            //+ "}";
-            var i;
-            for (i = 0; i < tags.length; i++) {
-                if (i + 1 != tags.length) {
-                    jsonData += "\"" + tags[i] + "\",";
-                } else {
-                    jsonData += "\"" + tags[i] + "\"]" + "}";
-                }
-            }
-            var cookies = document.cookie.split(";");
-            var token;
-            for (var i = 0; i < cookies.length; i++) {
-                if (cookies[i].includes("jwt")) {
-                    var tokenCookie = cookies[i].split("=");
-                    token = tokenCookie[1];
-                }
-            }
-            $.ajax({
-                async: true,
-                crossDomain: true,
-                url: "https://recipe-management-service.herokuapp.com/updateRecipe/" + idParam,
-                type: "PUT",
-                headers: {
-                    "content-type": "application/json",
-                    "Authorization": token
-                },
-                processData: false,
-                data: jsonData,
-                success: function(data, textStatus, response){
-                    window.location.reload();
-                },
-                error: function (xhr, status, err) {
-                    var button = document.getElementById("recipeUpdateButton");
-                    button.innerHTML = "<button type=\"button\" class=\"btn btn-lg btn-secondary btn-block\" data-dismiss=\"modal\">Close</button>\n"
-                        + "<input class=\"btn btn-lg btn-primary btn-block\" id=\"buttonUpdate\" type=\"submit\" name=\"submit\" value=\"Tarifi Güncelle\" onclick=\"updateRecipe()\">";
-                }
-            });
-        });
-    }
-
     $(function() {
         $("#searchForm").on("submit",function(e){
             var keyword = document.getElementById("searchKeyword").value;
@@ -801,59 +874,52 @@
         }
     }
 </script>
+
+<script type="text/javascript">
+
+    function onAddTag(tag) {
+        alert("Added a tag: " + tag);
+    }
+    function onRemoveTag(tag) {
+        alert("Removed a tag: " + tag);
+    }
+
+    function onChangeTag(input,tag) {
+        alert("Changed a tag: " + tag);
+    }
+
+    $(function() {
+
+        $('#tags_1').tagsInput({width:'auto'});
+        $('#tags_2').tagsInput({
+            width: 'auto',
+            onChange: function(elem, elem_tags)
+            {
+                var languages = ['php','ruby','javascript'];
+                $('.tag', elem_tags).each(function()
+                {
+                    if($(this).text().search(new RegExp('\\b(' + languages.join('|') + ')\\b')) >= 0)
+                        $(this).css('background-color', 'yellow');
+                });
+            }
+        });
+        $('#tags_3').tagsInput({
+            width: 'auto',
+
+            //autocomplete_url:'test/fake_plaintext_endpoint.html' //jquery.autocomplete (not jquery ui)
+            autocomplete_url:'test/fake_json_endpoint.html' // jquery ui autocomplete requires a json endpoint
+        });
+
+
+// Uncomment this line to see the callback functions in action
+//			$('input.tags').tagsInput({onAddTag:onAddTag,onRemoveTag:onRemoveTag,onChange: onChangeTag});
+
+// Uncomment this line to see an input with no interface for adding new tags.
+//			$('input.tags').tagsInput({interactive:false});
+    });
+
+</script>
+
 </body>
 
 </html>
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Sil</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p align="center">Tarif Silinsin mi ?</p>
-            </div>
-            <div class="modal-footer" id="recipeDeleteButton">
-                <button type="button" class="btn btn-lg btn-secondary btn-block" data-dismiss="modal">Hayır</button>
-                <input class="btn btn-lg btn-primary btn-block" id="buttonDelete" type="submit" name="submit" value="Evet" onclick="deleteRecipe()">
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Güncelle</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="updateForm" style="margin-top: 30px">
-                    <div class="form-group">
-                        <!--<label for="labelName">TARİF İSMİ</label>-->
-                        <input type="text" class="form-control" id="recipeName" aria-describedby="detailsHelp" placeholder="Enter Recipe Name" required>
-                    </div>
-                    <div class="form-group">
-                        <!--<label for="labelDetails">TARİF DETAYLAR</label>-->
-                        <input type="text" class="form-control" id="recipeDetails" aria-describedby="detailsHelp" placeholder="Enter Recipe Details" required>
-                    </div>
-                    <div class="form-group">
-                        <!--<label for="labelTags">TARİF ETİKETLER</label>-->
-                        <input type="text" class="form-control" id="recipeTags" aria-describedby="tagsHelp" placeholder="Enter Recipe Tags" required>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer" id="recipeUpdateButton">
-                <button type="button" class="btn btn-lg btn-secondary btn-block" data-dismiss="modal">Close</button>
-                <input class="btn btn-lg btn-primary btn-block" id="buttonUpdate" type="submit" name="submit" value="Tarifi Güncelle" onclick="updateRecipe()">
-            </div>
-        </div>
-    </div>
-</div>

@@ -584,7 +584,6 @@
     $(function() {
         $("#searchForm").on("submit",function(e){
             var keyword = document.getElementById("searchKeyword").value;
-            console.log("keyword: " + keyword );
             var keywordLink = "search.html?keyword=" + keyword;
             window.location.href = keywordLink;
             e.preventDefault();

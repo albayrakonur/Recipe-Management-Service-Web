@@ -562,17 +562,14 @@
             "headers": {}
         }
         $.ajax(settings).done(function (data) {
-            //console.log(data);
             var list = document.getElementById("recipe-list");
             var items = "";
             for(var i = 0; i < data.length; i++) {
                 var idParams = "recipe.html?id=" + data[i].id;
-                //console.log(i + ": " + data[i]["photos"]["photoLink"])
                 var recipePhotoLink;
                 for(var j = 0; j < data[i]["photos"].length; j++) {
                     recipePhotoLink = data[i]["photos"][0].photoLink;
                 }
-                //console.log("params: " + idParams);
                 items += " <div class=\"col-lg-3 col-md-4 col-6\"> <img class=\"card-img-top\" src=\"" + recipePhotoLink + "\" alt=\"Card image cap\"><div class=\"card-body\" style=\"text-align:center\"> <h5 class=\"card-title\">" + data[i].name + "</h5> <p class=\"card-text\" >" + data[i].details + "</p> <a href=\"" + idParams + "\" class=\"btn btn-primary\">Tarif Detayına Git</a> </div> </div> ";
             }
             list.innerHTML = items;
@@ -582,7 +579,6 @@
     $(function() {
         $("#searchForm").on("submit",function(e){
             var keyword = document.getElementById("searchKeyword").value;
-            console.log("keyword: " + keyword );
             var keywordLink = "search.html?keyword=" + keyword;
             window.location.href = keywordLink;
             e.preventDefault();

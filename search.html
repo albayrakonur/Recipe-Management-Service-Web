@@ -578,12 +578,10 @@
             "headers": {}
         }
         $.ajax(settings).done(function (data) {
-            //console.log(data);
             var list = document.getElementById("recipe-list");
             var items = "";
             for(var i = 0; i < data.length; i++) {
                 var idParams = "recipe.html?id=" + data[i].id;
-                //console.log("params: " + idParams);
                 var recipePhotoLink;
                 for(var j = 0; j < data[i]["photos"].length; j++) {
                     recipePhotoLink = data[i]["photos"][0].photoLink;

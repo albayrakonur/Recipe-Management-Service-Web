@@ -447,6 +447,17 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="main-card mb-3 card" style="border-radius: 50px;  box-shadow: 5px 5px 5px #e1e1e1;">
+                        <div class="card-body"><h5 class="card-title"></h5>
+                            <h1 class="font-weight-light text-center text-lg-left mt-4 mb-0">Tariflerim</h1>
+                            <hr class="mt-2 mb-5">
+                            <div class="row text-center text-lg-left" id="recipe-list">
+
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
             <div class="app-wrapper-footer">
@@ -541,16 +552,27 @@
         }
     });
 
-    $(document).ready(function() {
-        var cookies = document.cookie.split(";");
-        var username;
-        for (var i = 0; i < cookies.length; i++) {
-            if (cookies[i].includes("username")) {
-                var usernameCookie = cookies[i].split("=");
-                username = usernameCookie[1];
-            }
+    $( document ).ready(function() {
+        var settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": "https://recipe-management-service.herokuapp.com/getMyRecipes",
+            "method": "GET",
+            "headers": {}
         }
-        console.log(username);
+        $.ajax(settings).done(function (data) {
+            var list = document.getElementById("recipe-list");
+            var items = "";
+            for(var i = 0; i < data.length; i++) {
+                var idParams = "recipe.html?id=" + data[i].id;
+                var recipePhotoLink;
+                for(var j = 0; j < data[i]["photos"].length; j++) {
+                    recipePhotoLink = data[i]["photos"][0].photoLink;
+                }
+                items += " <div class=\"col-lg-3 col-md-4 col-6\"> <img class=\"card-img-top\" src=\"" + recipePhotoLink + "\" alt=\"Card image cap\"><div class=\"card-body\" style=\"text-align:center\"> <h5 class=\"card-title\">" + data[i].name + "</h5> <p class=\"card-text\" >" + data[i].details + "</p> <a href=\"" + idParams + "\" class=\"btn btn-primary\">Tarif Detayına Git</a> </div> </div> ";
+            }
+            list.innerHTML = items;
+        });
     });
 
     $(function() {
@@ -602,7 +624,6 @@
     $(function() {
         $("#searchForm").on("submit", function(e) {
             var keyword = document.getElementById("searchKeyword").value;
-            console.log("keyword: " + keyword);
             var keywordLink = "search.html?keyword=" + keyword;
             window.location.href = keywordLink;
             e.preventDefault();

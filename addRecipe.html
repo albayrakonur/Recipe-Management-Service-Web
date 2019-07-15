@@ -21,7 +21,8 @@
     * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
     -->
     <link href="./main.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="css/jquery.tagsinput.css" /></head>
+    <link rel="stylesheet" type="text/css" href="css/jquery.tagsinput.css" />
+</head>
 
 <body>
 <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
@@ -433,7 +434,6 @@
                             <h5 class="card-title"></h5>
                             <h1 class="font-weight-light text-center text-lg-left mt-4 mb-0">Tarif Ekle</h1>
                             <hr class="mt-2 mb-5">
-
                             <form class="" id="addRecipeForm">
                                 <div class="position-relative row form-group">
                                     <label for="recipeName" class="col-sm-2 col-form-label">Tarif Adı</label>
@@ -512,7 +512,7 @@
 </div>
 <script type="text/javascript" src="./assets/scripts/main.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="js/jquery.tagsinput.js"></script>
+<script src="assets/scripts/jquery.tagsinput.js"></script>
 <script type="text/javascript">
 
     $(document).ready(function () {
@@ -563,15 +563,6 @@
         }
     });
 
-    function removeCookies() {
-        var res = document.cookie;
-        var multiple = res.split(";");
-        for(var i = 0; i < multiple.length; i++) {
-            var key = multiple[i].split("=");
-            document.cookie = key[0]+" =; expires = Thu, 01 Jan 1970 00:00:00 UTC";
-        }
-    }
-
     $(function() {
         $("#addRecipeForm").on("submit", function(e) {
             e.preventDefault();
@@ -605,7 +596,6 @@
             var recipePhotos2 = document.getElementById("recipePhotos");
             for (var i = 0; i < recipePhotos2.files.length; i ++) {
                 data.append("file", recipePhotos2.files.item(i));
-                console.log(recipePhotos2.files.item(i));
             }
             $.ajax({
                 async: true,
@@ -633,7 +623,6 @@
     $(function() {
         $("#searchForm").on("submit", function(e) {
             var keyword = document.getElementById("searchKeyword").value;
-            console.log("keyword: " + keyword);
             var keywordLink = "search.html?keyword=" + keyword;
             window.location.href = keywordLink;
             e.preventDefault();
