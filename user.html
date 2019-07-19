@@ -553,25 +553,40 @@
     });
 
     $( document ).ready(function() {
-        var settings = {
-            "async": true,
-            "crossDomain": true,
-            "url": "https://recipe-management-service.herokuapp.com/getMyRecipes",
-            "method": "GET",
-            "headers": {}
-        }
-        $.ajax(settings).done(function (data) {
-            var list = document.getElementById("recipe-list");
-            var items = "";
-            for(var i = 0; i < data.length; i++) {
-                var idParams = "recipe.html?id=" + data[i].id;
-                var recipePhotoLink;
-                for(var j = 0; j < data[i]["photos"].length; j++) {
-                    recipePhotoLink = data[i]["photos"][0].photoLink;
-                }
-                items += " <div class=\"col-lg-3 col-md-4 col-6\"> <img class=\"card-img-top\" src=\"" + recipePhotoLink + "\" alt=\"Card image cap\"><div class=\"card-body\" style=\"text-align:center\"> <h5 class=\"card-title\">" + data[i].name + "</h5> <p class=\"card-text\" >" + data[i].details + "</p> <a href=\"" + idParams + "\" class=\"btn btn-primary\">Tarif Detayına Git</a> </div> </div> ";
+        var cookies = document.cookie.split(";");
+        var token;
+        for (var i = 0; i < cookies.length; i++) {
+            if (cookies[i].includes("jwt")) {
+                var tokenCookie = cookies[i].split("=");
+                token = tokenCookie[1];
             }
-            list.innerHTML = items;
+        }
+        $.ajax({
+            async: true,
+            crossDomain: true,
+            url: "https://recipe-management-service.herokuapp.com/getMyRecipes",
+            type: "GET",
+            headers: {
+                "Authorization": token
+            },
+            processData: false,
+            data: "",
+            success: function(data, textStatus, response){
+                var list = document.getElementById("recipe-list");
+                var items = "";
+                for(var i = 0; i < data.length; i++) {
+                    var idParams = "recipe.html?id=" + data[i].id;
+                    var recipePhotoLink;
+                    for(var j = 0; j < data[i]["photos"].length; j++) {
+                        recipePhotoLink = data[i]["photos"][0].photoLink;
+                    }
+                    items += " <div class=\"col-lg-3 col-md-4 col-6\"> <img class=\"card-img-top\" src=\"" + recipePhotoLink + "\" alt=\"Card image cap\"><div class=\"card-body\" style=\"text-align:center\"> <h5 class=\"card-title\">" + data[i].name + "</h5> <p class=\"card-text\" >" + data[i].details + "</p> <a href=\"" + idParams + "\" class=\"btn btn-primary\">Tarif Detayına Git</a> </div> </div> ";
+                }
+                list.innerHTML = items;
+            },
+            error: function (xhr, status, err) {
+                alert("Tariflerinizi getirirken hata olustu.");
+            }
         });
     });
 
