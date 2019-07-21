@@ -23,6 +23,8 @@
     <link href="./main.css" rel="stylesheet">
     <script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5cfee3544351e90012650100&product=inline-share-buttons' async='async'></script>
     <link rel="stylesheet" type="text/css" href="css/jquery.tagsinput.css" />
+    <link rel="stylesheet" href="css/lightbox.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/css/lightbox.min.css">
 </head>
 
 <body>
@@ -458,6 +460,14 @@
                                 <div class="col-md-4">
                                     <div id="recipeHeaderText">
                                     </div>
+                                    <br/>
+
+                                    <div id="likeSection">
+                                        <button type="button" class="btn btn-lg btn-primary btn-block" onclick="recipeLikeFunction()">Tarifi Beğen</button>
+                                    </div>
+
+                                    <br/>
+                                    <br/>
                                     <div id="recipeOperationsBar">
 
                                     </div>
@@ -478,7 +488,12 @@
 
                                         </div>
                                         <div class="tab-pane" id="mediaSection" role="tabpanel">
-
+                                            <div class="photo-gallery">
+                                                <div class="container">
+                                                    <div id="recipeMedia" class="row photos">
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="tab-pane" id="tagSection" role="tabpanel">
 
@@ -602,6 +617,7 @@
 <script type="text/javascript" src="./assets/scripts/main.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="assets/scripts/jquery.tagsinput.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox.min.js"></script>
 <script>
     (function($) {
 
@@ -721,7 +737,7 @@
                 }else {
                     updateData.append("tags", tags);
                 }
-                var recipePhotos2 = document.getElementById("recipePhotos");
+                var recipef2 = document.getElementById("recipePhotos");
                 for (var i = 0; i < recipePhotos2.files.length; i ++) {
                     updateData.append("file", recipePhotos2.files.item(i));
                 }
@@ -764,6 +780,9 @@
         var url_string = window.location.href;
         var url = new URL(url_string);
         var idParam = url.searchParams.get("id");
+
+        var mediaSection = document.getElementById("recipeMedia");
+        var photos = "";
         var settings = {
             "async": true,
             "crossDomain": true,
@@ -785,7 +804,7 @@
                     username = usernameCookie[1];
                 }
             }
-            console.log("cookie: " + username + " photoUser: " + data.userName);
+            //console.log("cookie: " + username + " photoUser: " + data.userName);
             if(data.userName.localeCompare(username) == 0) {
                 operations.innerHTML =
                     "<button type=\"button\" class=\"btn btn-primary btn-lg btn-block\" data-toggle=\"modal\" data-target=\"#exampleModal\">Tarifi Sil</button>\n"
@@ -806,12 +825,14 @@
             var slider = document.getElementById("recipePhoto");
             var sliderHTML;
             for(var i = 0; i < data.photos.length; i++) {
+                photos += "<div class=\"col-sm-6 col-md-4 col-lg-3 item\"><a href=\"" + data.photos[i].photoLink + "\" data-lightbox=\"photos\"><img class=\"img-fluid\" src=\"" + data.photos[i].photoLink + "\"></a></div>"
                 if (i == 0) {
                     sliderHTML += "<div class=\"carousel-item active\"><img class=\"d-block w-100\" src=\"" + data.photos[i].photoLink + "\" alt=\"First slide\"></div>";
                 }else {
                     sliderHTML += "<div class=\"carousel-item\"><img class=\"d-block w-100\" src=\"" + data.photos[i].photoLink + "\" alt=\"First slide\"></div>";
                 }
             }
+            mediaSection.innerHTML = photos;
             slider.innerHTML = sliderHTML;
         });
     });
@@ -854,6 +875,42 @@
                     + "<input class=\"btn btn-lg btn-primary btn-block\" id=\"buttonDelete\" type=\"submit\" name=\"submit\" value=\"Evet\" onclick=\"deleteRecipe()\">";
             }
         });
+    }
+
+    function recipeLikeFunction() {
+        var url_string = window.location.href;
+        var url = new URL(url_string);
+        var idParam = url.searchParams.get("id");
+
+        var cookies = document.cookie.split(";");
+        var username;
+        var token;
+        for (var i = 0; i < cookies.length; i++) {
+            if (cookies[i].includes("username")) {
+                var usernameCookie = cookies[i].split("=");
+                username = usernameCookie[1];
+            }
+            if (cookies[i].includes("jwt")) {
+                var tokenCookie = cookies[i].split("=");
+                token = tokenCookie[1];
+            }
+        }
+        //console.log(username + " , " + token);
+        $.ajax({
+            async: true,
+            crossDomain: true,
+            url: "https://recipe-management-service.herokuapp.com/liked/" + idParam,
+            type: "GET",
+            headers: {
+                "Authorization": token
+            },
+            success: function (data, textStatus, response) {
+                alert("Tarif Beğenildi.");
+            },
+            error: function (xhr, status, err) {
+                alert("Begenmek icin üye olmanız gerekiyor.");
+            }
+        })
     }
 
     $(function() {
