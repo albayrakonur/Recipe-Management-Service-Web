@@ -168,7 +168,13 @@
                 </div>
                 <div class="container">
                     <div class="main-card mb-3 card" style="border-radius: 20px; box-shadow: 5px 5px 5px #e1e1e1;">
-                        <div class="card-body"><h5 class="card-title">Hesap Ayarları</h5>
+                        <div class="card-body"><h5 class="card-title">
+                            Account Settings
+                            <div id="accountName">
+
+                            </div>
+
+                        </h5>
                             <div class="panel-body">
                                 <form id="userSettingsForm">
                                     <div class="form-group mb-lg">
@@ -253,6 +259,8 @@
                 username = usernameCookie[1];
             }
         }
+        var user = document.getElementById("accountName");
+        user.innerText = "username:" + username;
         login_bar = document.getElementById("loginBar");
         if( !(document.cookie.includes("jwt") && document.cookie.includes("username")) ) {
             login_bar.innerHTML = "<div class=\"widget-content-left\">"
