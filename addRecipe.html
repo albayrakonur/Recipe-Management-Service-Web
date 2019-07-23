@@ -176,9 +176,23 @@
                                     </div>
                                 </div>
                                 <div class="position-relative row form-group">
-                                    <label for="recipePhotos" class="col-sm-2 col-form-label">File</label>
+                                    <label for="recipePhotosIng" class="col-sm-2 col-form-label">Ingredients</label>
                                     <div class="col-sm-10">
-                                        <input type="file" name="file" id="recipePhotos" type="file" class="form-control-file" accept="image/png, image/jpeg" multiple required>
+                                        <input type="file" name="file" id="recipePhotosIng" type="file" class="form-control-file" accept="image/png, image/jpeg" multiple required>
+                                        <small class="form-text text-muted">Tarife Resim Ekle</small>
+                                    </div>
+                                </div>
+                                <div class="position-relative row form-group">
+                                    <label for="recipePhotosSteps" class="col-sm-2 col-form-label">Cooking Steps</label>
+                                    <div class="col-sm-10">
+                                        <input type="file" name="file" id="recipePhotosSteps" type="file" class="form-control-file" accept="image/png, image/jpeg" multiple required>
+                                        <small class="form-text text-muted">Tarife Resim Ekle</small>
+                                    </div>
+                                </div>
+                                <div class="position-relative row form-group">
+                                    <label for="recipePhotosFinal" class="col-sm-2 col-form-label">Final</label>
+                                    <div class="col-sm-10">
+                                        <input type="file" name="file" id="recipePhotosFinal" type="file" class="form-control-file" accept="image/png, image/jpeg" multiple required>
                                         <small class="form-text text-muted">Tarife Resim Ekle</small>
                                     </div>
                                 </div>
@@ -315,9 +329,17 @@
             data.append("details", recipeDetail);
             var recipeTag = document.getElementById("tags_1").value;
             data.append("tags", recipeTag);
-            var recipePhotos2 = document.getElementById("recipePhotos");
-            for (var i = 0; i < recipePhotos2.files.length; i ++) {
-                data.append("file", recipePhotos2.files.item(i));
+            var recipeIng = document.getElementById("recipePhotosIng");
+            var recipeSteps = document.getElementById("recipePhotosSteps");
+            var recipeFinal = document.getElementById("recipePhotosFinal");
+            for (var i = 0; i < recipeIng.files.length; i ++) {
+                data.append("fileIngredients", recipeIng.files.item(i));
+            }
+            for (var i = 0; i < recipeSteps.files.length; i ++) {
+                data.append("fileCookingSteps", recipeSteps.files.item(i));
+            }
+            for (var i = 0; i < recipeFinal.files.length; i ++) {
+                data.append("file", recipeFinal.files.item(i));
             }
             $.ajax({
                 async: true,
@@ -337,6 +359,7 @@
                 error: function (xhr, status, err) {
                     var button = document.getElementById("addRecipeButton");
                     button.innerHTML = "<button class=\"btn btn-lg btn-primary\">Tarifi Ekle</button>";
+                    alert("Tarif eklemek icin üye olmanız gerekiyor.");
                 }
             });
         });
