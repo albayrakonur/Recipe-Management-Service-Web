@@ -214,18 +214,24 @@
                                                 <div class="container">
                                                     <div class="row">
                                                         <h3><u>Final Photos</u></h3> <br/>
+                                                    </div>
+                                                    <div class="row">
                                                         <div id="recipeMedia" class="row photos">
                                                         </div>
                                                     </div>
                                                     <hr>
                                                     <div class="row">
                                                         <h3><u>Cooking Steps</u></h3> <br/>
+                                                    </div>
+                                                    <div class="row">
                                                         <div id="recipeMediaCookingSteps" class="row photos">
                                                         </div>
                                                     </div>
                                                     <hr>
                                                     <div class="row">
                                                         <h3><u>Ingredients</u></h3> <br/>
+                                                    </div>
+                                                    <div class="row">
                                                         <div id="recipeMediaIngredients" class="row photos">
                                                         </div>
                                                     </div>
@@ -334,19 +340,13 @@
                             <input id="tags_1" type="text" class="tags" />
                         </div>
                     </div>
-                    <div class="position-relative row form-group">
-                        <label for="recipePhotos" class="col-sm-2 col-form-label">File</label>
-                        <div class="col-sm-10">
-                            <input type="file" name="file" id="recipePhotos" type="file" class="form-control-file" accept="image/png, image/jpeg" multiple>
-                            <small class="form-text text-muted">Tarife Resim Ekle</small>
-                        </div>
+                    <div class="modal-footer" id="recipeUpdateButton">
+                        <button type="button" class="btn btn-lg btn-secondary btn-block" data-dismiss="modal">Close</button>
+                        <input class="btn btn-lg btn-primary btn-block" id="buttonUpdate" type="submit" name="submit" value="Tarifi Güncelle">
                     </div>
                 </form>
             </div>
-            <div class="modal-footer" id="recipeUpdateButton">
-                <button type="button" class="btn btn-lg btn-secondary btn-block" data-dismiss="modal">Close</button>
-                <input class="btn btn-lg btn-primary btn-block" id="buttonUpdate" type="submit" name="submit" value="Tarifi Güncelle" onclick="updateRecipe()">
-            </div>
+
         </div>
     </div>
 </div>
@@ -426,7 +426,8 @@
         }
     });
 
-    function updateRecipe() {
+    $( "#updateRecipeForm" ).submit(function( event ) {
+        event.preventDefault();
         var button = document.getElementById("recipeUpdateButton");
         button.innerHTML = "<button type=\"button\" class=\"btn btn-lg btn-secondary btn-block\" data-dismiss=\"modal\">Close</button>" +
             "<button class=\"btn btn-lg btn-primary btn-block\" type=\"button\" disabled>\n" +
@@ -442,76 +443,82 @@
             }
         }
         //console.log(token);
-
         var url_string = window.location.href;
         var url = new URL(url_string);
         var idParam = url.searchParams.get("id");
-
         $.ajax({
             async: true,
             crossDomain: true,
             url: "https://recipe-management-service.herokuapp.com/getRecipe/" + idParam,
-            type: "GET",
+            method: "GET",
             headers: {},
             success: function (data,textStatus,response) {
-                //console.log(data);
-                var name = document.getElementById("recipeName").value;
-                var myDetails = document.getElementById("recipeDetails").value;
-                var tags = (document.getElementById("tags_1").value).split(',');
-                var updateData = new FormData();
-                if(name == "") {
-                    updateData.append("name",data.name);
-                }else {
-                    updateData.append("name", name);
-                }
-                if (myDetails.localeCompare("") != 1) {
-                    updateData.append("details", data.details);
-                }else {
-                    updateData.append("details", myDetails);
-                }
-                if (tags.length == 0) {
-                    updateData.append("tags", data.tags);
-                }else {
-                    updateData.append("tags", tags);
-                }
-                var recipef2 = document.getElementById("recipePhotos");
-                for (var i = 0; i < recipePhotos2.files.length; i ++) {
-                    updateData.append("file", recipePhotos2.files.item(i));
-                }
-                for (var value of updateData.values()) {
-                    console.log(value);
-                }
-                console.log(idParam);
-                $.ajax({
-                    async: true,
-                    crossDomain: true,
-                    url: "https://recipe-management-service.herokuapp.com/updateRecipe/" + idParam,
-                    type: "PUT",
-                    headers: {
-                        "Authorization": token
-                    },
-                    processData: false,
-                    contentType: false,
-                    mimeType: "multipart/form-data",
-                    data: updateData,
-                    success: function (data2, textStatus2, response2) {
-                        window.location.reload();
-                    },
-                    error: function (xhr2, status2, err2) {
-                        var button = document.getElementById("recipeUpdateButton");
-                        button.innerHTML = "<button type=\"button\" class=\"btn btn-lg btn-secondary btn-block\" data-dismiss=\"modal\">Close</button>\n"
-                            + "<input class=\"btn btn-lg btn-primary btn-block\" id=\"buttonUpdate\" type=\"submit\" name=\"submit\" value=\"Tarifi Güncelle\" onclick=\"updateRecipe()\">";
-                        alert(xhr2.getAllResponseHeaders());
-                    }
-                })
-
+                //console.log(data.id);
+                updateFunction(data, idParam, token);
             },
             error: function (xhr, status, err) {
-                console.log("error");
+                button.innerHTML = "<button type=\"button\" class=\"btn btn-lg btn-secondary btn-block\" data-dismiss=\"modal\">Close</button>\n" +
+                    "                        <input class=\"btn btn-lg btn-primary btn-block\" id=\"buttonUpdate\" type=\"submit\" name=\"submit\" value=\"Tarifi Güncelle\">";
+                alert("Gonderi Eklenirken Hata Olustu.");
             }
-
         });
-    };
+    });
+
+    function updateFunction(data, idParam, token) {
+
+
+
+        var defaultName = data.name;
+        //console.log(defaultName);
+        var defaultDetails = data.details;
+        //console.log(defaultDetails);
+        var defaultTags = data.tags.toString(); // 1, 2, 3, 4, 5, 6
+        //console.log(defaultTags);
+
+        // ********************
+
+        var name = document.getElementById("recipeName").value;
+        var details = document.getElementById("recipeDetails").value;
+        var tags = document.getElementById("tags_1").value;
+        //console.log(name + " " + details + " " + tags);
+
+        if (!name) {
+            name = defaultName;
+        }
+        if(!details){
+            details = defaultDetails;
+        }
+        if (!tags) {
+            tags = defaultTags;
+        }
+
+        var data = new FormData();
+        data.append("name", name);
+        data.append("details", details);
+        data.append("tags", tags);
+
+        $.ajax({
+            async: true,
+            crossDomain: true,
+            url: "https://recipe-management-service.herokuapp.com/updateRecipe/" + idParam,
+            type: "PUT",
+            headers: {
+                "Authorization": token
+            },
+            processData: false,
+            contentType: false,
+            mimeType: "multipart/form-data",
+            data: data,
+            success: function(data, textStatus, response){
+                window.location.href = "recipe.html?id=" + idParam;
+            },
+            error: function (xhr, status, err) {
+                alert("hata");
+            }
+        });
+
+
+    }
 
     $(document).ready(function() {
         var url_string = window.location.href;
